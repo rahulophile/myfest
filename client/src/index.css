@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+/* Custom styles */
+body {
+  margin: 0;
+  font-family: "Orbitron", "Rajdhani", "Exo 2", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Custom cursor (SVG data URI with cyan arrow). Fallback to auto. */
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 28 28'%3E%3Cpath d='M3 3 L23 14 L14 16 L16 25 Z' fill='%230AECEA'/%3E%3C/svg%3E")
+      0 0,
+    auto;
+}
+
+/* Ensure interactive elements remain pointer */
+a,
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+.code-font {
+  font-family: "Orbitron", sans-serif;
+}
+.content-font {
+  font-family: "Exo 2", system-ui, sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* Hide native scrollbars for horizontal sliders */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Transparent outlined text */
+.tech-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9);
+  text-shadow: none;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+/* Animated tech dots background with subtle icon layer (optimized) */
+/* Simple code icon as repeated background (low opacity) */
+/* Add robot icon to background icon set */
+:root {
+  --icon-code: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.14)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='7 8 3 12 7 16'/%3E%3Cpolyline points='17 8 21 12 17 16'/%3E%3Cline x1='14' y1='4' x2='10' y2='20'/%3E%3C/svg%3E");
+  --icon-chip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.12)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='4' width='16' height='16' rx='2'/%3E%3Cpath d='M9 9h6v6H9z'/%3E%3Cpath d='M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3'/%3E%3C/svg%3E");
+  --icon-bot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.10)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='8' width='18' height='10' rx='2'/%3E%3Ccircle cx='8' cy='13' r='1.5'/%3E%3Ccircle cx='16' cy='13' r='1.5'/%3E%3Cpath d='M12 8V4m-3 0h6'/%3E%3C/svg%3E");
+}
+
+/* Subtle professional dotted background (no icons) */
+.tech-dots-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.15) 1px,
+    transparent 1.8px
+  );
+  background-size: 24px 24px;
+  background-repeat: repeat;
+  background-position: 0 0;
+  animation: moveDots 75s linear infinite;
+  opacity: 0.28;
+  will-change: background-position;
+}
+@keyframes moveDots {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -1600px;
+  }
+}
+
+/* Card styling - now using minimal borders instead of glass effect */
+
+/* Glass card effect with borders */
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.footer-bg{
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-accent {
+  border: 3px solid rgba(10, 236, 234, 0.4);
+  box-shadow: 0 8px 32px rgba(10, 236, 234, 0.2),
+    0 0 0 1px rgba(10, 236, 234, 0.2), inset 0 1px 0 rgba(10, 236, 234, 0.1);
+}
+
+/* Tilt card */
+.tilt-card {
+  transform: perspective(800px) rotateY(-3deg);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+.tilt-card:hover {
+  transform: perspective(800px) rotateY(0deg) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.8),
+      0 0 40px rgba(10, 236, 234, 0.6);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .tech-dots-bg {
+    animation-duration: 90s;
+  }
+  .animate-float,
+  .animate-glow {
+    animation: none;
+  }
+}
+
+/* Custom Scrollbar Styles */
+
+/* Works on Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937; /* Dark background for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #06b6d4, #3b82f6); /* Cyan to Blue gradient */
+  border-radius: 10px;
+  border: 2px solid #1f2937; /* A little border to make it pop */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #22d3ee, #60a5fa); /* Brighter gradient on hover */
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #06b6d4 #1f2937;
+}
+
+/* Scroll Indicator Animation */
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
