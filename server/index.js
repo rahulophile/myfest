@@ -1,4 +1,3 @@
-// index.js (in server folder)
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -11,7 +10,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const facultyRoutes = require('./routes/faculty');
 const studentTeamRoutes = require('./routes/studentTeam');
 const authMiddleware = require('./middleware/authMiddleware');
-const path = require('path'); // Added for serving static files
+const path = require('path');
 
 const app = express();
 
@@ -29,45 +28,62 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 
-// Rate limiting - More reasonable limits
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 2000, // limit each IP to 2000 requests per windowMs (increased from 1000)
-  message: {
-    success: false,
-    message: 'Too many requests from this IP, please try again later.'
+// --- YAHAN CHANGES HAIN ---
+
+// CORS Configuration
+const allowedOrigins = [
+  'https://vzn-8070.onrender.com', // Aapka deployed frontend URL
+  'http://localhost:5173',         // Aapka local development URL
+  // Agar aapke paas koi aur frontend URL hai to yahan add karein
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman, curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
   },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
+
+// --- CHANGES END HERE ---
+
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 2000,
+  message: { success: false, message: 'Too many requests from this IP, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
-  skipSuccessfulRequests: true, // Don't count successful requests
+  skipSuccessfulRequests: true,
   skipFailedRequests: false
 });
-
-// Apply rate limiting to all routes
 app.use(limiter);
 
-// Stricter rate limiting for auth routes only
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 50, // limit each IP to 50 requests per windowMs (increased from 20)
-  message: {
-    success: false,
-    message: 'Too many authentication attempts, please try again later.'
-  },
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+  message: { success: false, message: 'Too many authentication attempts, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
-  skipSuccessfulRequests: true, // Don't count successful logins
+  skipSuccessfulRequests: true,
   skipFailedRequests: false
 });
 
-// Separate rate limiter for dashboard/profile routes
 const dashboardLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 1000, // limit each IP to 1000 requests per windowMs (increased from 500)
-  message: {
-    success: false,
-    message: 'Too many dashboard requests, please try again later.'
-  },
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
+  message: { success: false, message: 'Too many dashboard requests, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
   skipSuccessfulRequests: true,
@@ -75,28 +91,6 @@ const dashboardLimiter = rateLimit({
 });
 
 // Middlewares
-app.use(cors({
-  origin: process.env.CLIENT_URL || function(origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    // Allow localhost on any port
-    if (origin.match(/^https?:\/\/localhost:\d+$/)) {
-      return callback(null, true);
-    }
-    
-    // Allow specific production domains if set
-    if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) {
-      return callback(null, true);
-    }
-    
-    callback(null, true); // Allow all origins in development
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -104,20 +98,19 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
   setHeaders: (res) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    // We don't need Access-Control-Allow-Origin here as CORS middleware handles it
   }
 }));
 
-// Security headers
+// Security headers (minor improvement)
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   next();
 });
 
-// MongoDB Connection with better error handling
+// MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/vision-fest-25', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -157,26 +150,16 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Development endpoint to reset rate limiting (only in development)
+// Development endpoint to reset rate limiting
 if (process.env.NODE_ENV === 'development') {
   app.post('/api/dev/reset-rate-limits', (req, res) => {
-    // This will reset the rate limiting counters
-    // In production, you'd want to remove this or secure it properly
-    res.json({
-      success: true,
-      message: 'Rate limiting counters reset (development only)',
-      timestamp: new Date().toISOString()
-    });
+    res.json({ success: true, message: 'Rate limiting counters reset (development only)' });
   });
 }
 
-// 404 handler - using a more specific pattern
+// 404 handler
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found',
-    path: req.path
-  });
+  res.status(404).json({ success: false, message: 'Route not found', path: req.path });
 });
 
 // Global error handler
@@ -194,5 +177,4 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`MongoDB: ${process.env.MONGODB_URI || 'mongodb://localhost:27017/vision-fest-25'}`);
 });
