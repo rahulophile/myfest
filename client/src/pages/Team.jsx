@@ -69,14 +69,14 @@ const Team = () => {
             }}
           />
           <div
-            className={`${size} bg-gradient-to-br from-slate-300 via-gray-500 to-slate-800
- rounded-full flex items-center justify-center border-2 border-slate-200 hidden shadow-lg`}
+            className={`${size} bg-gradient-to-br from-slate-700 via-gray-700 to-slate-700
+ rounded-full flex items-center justify-center border-2 border-slate-400 hidden shadow-lg`}
           >
             <div className="text-center">
               <span className="text-white font-bold text-3xl block">
-                {name.charAt(0)}
+                {name.charAt(4)}
               </span>
-              <div className="w-2 h-2 bg-cyan-300 rounded-full mx-auto mt-1 animate-pulse"></div>
+              
             </div>
           </div>
         </>
@@ -113,13 +113,13 @@ const Team = () => {
             }}
           />
           <div
-            className={`${size} bg-gradient-to-br from-cyan-500 via-blue-600 to-purple-700 rounded-full flex items-center justify-center border-2 border-cyan-400 hidden shadow-lg`}
+            className={`${size} bg-gradient-to-br from-cyan-800 via-blue-800 to-purple-800 rounded-full flex items-center justify-center border-2 border-cyan-700 hidden shadow-lg`}
           >
             <div className="text-center">
               <span className="text-white font-bold text-xl block">
                 {name.charAt(0)}
               </span>
-              <div className="w-1.5 h-1.5 bg-cyan-300 rounded-full mx-auto mt-0.5 animate-pulse"></div>
+              
             </div>
           </div>
         </>
@@ -153,10 +153,10 @@ const Team = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-trasparent flex items-center justify-center">
+        <div className="flex items-center justify-center flex-col text-center p-20">
           <div className="text-red-400 text-6xl mb-4">⚠️</div>
-          <p className="text-white text-xl mb-4">{error}</p>
+          <p className="text-white text-l lg:text-xl mb-4">{error}</p>
           <button
             onClick={fetchTeamData}
             className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
@@ -203,7 +203,7 @@ const Team = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-15">
               {facultyMembers.map((member, index) => (
                 <div
                   key={member._id || index}
@@ -256,7 +256,7 @@ const Team = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-15">
               {studentTeam.map((member, index) => (
                 <div
                   key={member._id || index}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { buildApiUrl, BACKEND_URL } from '../config/config';
-import EventBackground from '../components/EventBackground';
+
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -40,7 +40,7 @@ const Events = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-cyan-400 mx-auto"></div>
           <p className="text-cyan-400 text-lg mt-4">Loading Events...</p>
@@ -50,8 +50,7 @@ const Events = () => {
   }
 
   return (
-    <div className="relative">
-      <EventBackground />
+    
       <div className="relative z-10">
         <div className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -67,13 +66,13 @@ const Events = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {events.length === 0 ? (
-            <div className="text-center py-20">
+            <div className="text-center pb-30 lg:pb-70">
               <p className="text-xl text-gray-400">No events available at the moment. Please check back later!</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-15">
               {events.map((event) => (
-                <div key={event._id} className="glass-card rounded-2xl overflow-hidden flex flex-col border border-cyan-400/20 hover:border-cyan-400/50 hover:-translate-y-2 transition-transform duration-300">
+                <div key={event._id} className="glass-card m-2 rounded-2xl overflow-hidden flex flex-col border border-cyan-400/20 hover:border-cyan-400/50 hover:-translate-y-2 transition-transform duration-300">
                   {/* Poster Area */}
                   <div className="aspect-video bg-gray-800 relative">
                     {getPosterUrl(event.poster) ? (
@@ -114,7 +113,7 @@ const Events = () => {
                     {/* Action Button */}
                     <div className="mt-auto">
                       <Link to={`/events/${event._id}`} className="block text-center bg-cyan-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-cyan-700 transition">
-                        View Details & Participate
+                        View & Participate
                       </Link>
                     </div>
                   </div>
@@ -124,7 +123,7 @@ const Events = () => {
           )}
         </div>
       </div>
-    </div>
+   
   );
 };
 

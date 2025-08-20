@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import GalleryBackground from '../components/GalleryBackground'; 
+
 
 const Gallery = () => {
   // We will keep the data structure but show a "coming soon" message
@@ -7,8 +7,7 @@ const Gallery = () => {
   // const categories = ['all', 'Technical Events', 'Cultural Events', 'Workshops', 'Award Ceremony', 'Campus Life'];
 
   return (
-    <div className="relative">
-      <GalleryBackground /> {/* Using the same fixed background */}
+    
       
       <div className="relative z-10">
         {/* Header */}
@@ -46,7 +45,7 @@ const Gallery = () => {
           
         </div>
       </div>
-    </div>
+    
   );
 };
 

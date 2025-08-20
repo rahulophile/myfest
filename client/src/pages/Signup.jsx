@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import TechBackground from '../components/TechBackground'; // Using TechBackground
+
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -64,7 +64,7 @@ const Signup = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <TechBackground />
+      
       <div className="relative z-10 max-w-md w-full space-y-8">
         <div className="glass-card rounded-2xl p-8 border border-cyan-400/20 shadow-2xl shadow-cyan-500/10">
           {/* Header */}
@@ -94,7 +94,7 @@ const Signup = () => {
 
             <PasswordField placeholder="Password *" value={formData.password} onChange={handleInputChange} name="password" show={showPassword} toggleShow={() => setShowPassword(!showPassword)} />
             <PasswordField placeholder="Confirm Password *" value={formData.confirmPassword} onChange={handleInputChange} name="confirmPassword" show={showConfirmPassword} toggleShow={() => setShowConfirmPassword(!showConfirmPassword)} />
-            <p className="text-xs text-gray-400">Password must be 8+ characters with one special character.</p>
+            <p className="text-xs text-cyan-400"><b>Password must be 8+ characters with one special and uppercase character.</b></p>
             
             {error && <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-md text-sm">{error}</div>}
             {success && <div className="bg-green-900/50 border border-green-700 text-green-200 px-4 py-3 rounded-md text-sm">{success}</div>}
@@ -103,7 +103,7 @@ const Signup = () => {
               {loading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : 'REGISTER'}
             </button>
             
-            <p className="text-center text-sm text-gray-400 pt-2">
+            <p className="text-center text-sm text-gray-100 pt-2">
               Already have an account? <Link to="/login" className="font-medium text-cyan-400 hover:text-cyan-300 transition-colors">Sign in here</Link>
             </p>
           </form>

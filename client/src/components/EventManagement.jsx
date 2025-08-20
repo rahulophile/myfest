@@ -580,7 +580,7 @@ const EventManagement = () => {
                     className="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600"
                   />
                   <input
-                    type="email"
+                    type="tel"
                     placeholder="Contact"
                     value={coordinator.contact}
                     onChange={(e) => handleArrayChange('coordinators', index, { contact: e.target.value })}

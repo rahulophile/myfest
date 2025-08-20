@@ -9,7 +9,7 @@ const TechBackground = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        filter: 'brightness(0.4) contrast(1.2)'
+        filter: 'brightness(0.6) contrast(1.2)'
       }}
     />
   );

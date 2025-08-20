@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ContactBackground from '../components/ContactBackground';
+
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -36,8 +36,8 @@ const Contact = () => {
   };
 
   return (
-    <div className="relative">
-      <ContactBackground />
+    
+      
       <div className="relative z-10">
         {/* Header */}
         <div className="py-16">
@@ -131,7 +131,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

@@ -203,3 +203,19 @@ html {
 .animate-bounce-subtle {
   animation: bounce-subtle 2s ease-in-out infinite;
 }
+
+/* src/index.css */
+
+/* ... (aapka baaki ka CSS code yahan hai) ... */
+
+/* --- YEH NAYA CODE ADD KAREIN --- */
+
+/* Step 1: Root level par background color set karein */
+html {
+  background-color: #111827; /* Tailwind ka bg-gray-900 color */
+}
+
+/* Step 2: Overscroll bounce effect ko band karein */
+body {
+  overscroll-behavior-y: contain; /* Vertical bounce ko rokta hai */
+}

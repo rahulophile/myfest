@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { buildApiUrl } from '../config/config';
-import DashboardBackground from '../components/DashboardBackground'; // Background component import karein
+
 
 const Dashboard = () => {
   const { user, getUserToken, loading: authLoading } = useAuth();
@@ -96,11 +96,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="relative">
-      <DashboardBackground />
+    
       <div className="relative z-10">
         {/* Header */}
-        <div className="py-16">
+        <div className="lg:py-15 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center space-x-4">
               <div className="w-20 h-20 bg-gradient-to-br from-cyan-900 via-gray-800 to-gray-900 rounded-full flex items-center justify-center border-2 border-cyan-400/50 shadow-lg shadow-cyan-500/10">
@@ -109,8 +108,8 @@ const Dashboard = () => {
                 </span>
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-white">Welcome, {userData.name}!</h1>
-                <p className="text-xl text-gray-300">Your Vision Fest Dashboard</p>
+                <h1 className="lg:text-4xl text-2xl font-bold text-white">Welcome, {userData.name}!</h1>
+                <p className="lg:text-xl text-l text-gray-300">Your Vision Fest Dashboard</p>
               </div>
             </div>
           </div>
@@ -167,7 +166,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

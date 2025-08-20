@@ -1,9 +1,12 @@
-// src/App.jsx
-import React, { useState, useEffect } from 'react'; // useState pehle se hai, good
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Spinner from './components/Spinner';
+import ScrollToTop from './components/ScrollToTop';
+
+// All pages
 import Home from './pages/Home';
 import Events from './pages/Events';
 import EventDetail from './pages/EventDetail';
@@ -16,65 +19,63 @@ import Dashboard from './pages/Dashboard';
 import Sponsors from './pages/Sponsors';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
-import Spinner from './components/Spinner';
-import TechBackground from './components/TechBackground';
 
-// Developer Credit components import karein
+// All background components
+import TechBackground from './components/TechBackground';
+import EventBackground from './components/EventBackground';
+import TeamBackground from './components/TeamBackground';
+import GalleryBackground from './components/GalleryBackground';
+import ContactBackground from './components/ContactBackground';
+import DashboardBackground from './components/DashboardBackground';
+
+// Developer Credit components
 import DeveloperCredit from './components/DeveloperCredit';
 import DeveloperModal from './components/DeveloperModal';
 
-// Protected Route Component
+// Protected Route Components
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  
-  if (loading) {
-    return <Spinner />;
-  }
-  
+  if (loading) return <Spinner />;
   return user ? children : <Navigate to="/login" replace />;
 };
 
-// Admin Protected Route Component
 const AdminRoute = ({ children }) => {
   const { admin, loading } = useAuth();
-  
-  if (loading) {
-    return <Spinner />;
-  }
-  
+  if (loading) return <Spinner />;
   return admin ? children : <Navigate to="/admin/login" replace />;
 };
 
-function AppContent() {
+// This component decides which background to show
+const AppBackground = () => {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  if (isAdminRoute) return null; // No background for admin pages
+
+  // Select background based on route
+  if (location.pathname.startsWith('/events')) return <EventBackground />;
+  if (location.pathname === '/team') return <TeamBackground />;
+  if (location.pathname === '/gallery') return <GalleryBackground />;
+  if (location.pathname === '/contact') return <ContactBackground />;
+  if (location.pathname === '/dashboard') return <DashboardBackground />;
+  
+  // Default background for Home, Login, Signup, etc.
+  return <TechBackground />;
+};
+
+// This component manages the main layout
+const AppLayout = () => {
   const { loading } = useAuth();
+  const location = useLocation();
+  const [isDevModalOpen, setDevModalOpen] = useState(false);
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   if (loading) {
     return <Spinner />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col relative">
-      <TechBackground />
-      <div className="relative z-10 flex flex-col flex-grow">
-        <MainContent />
-      </div>
-    </div>
-  );
-}
-
-function MainContent() {
-  const location = useLocation();
-  const { admin } = useAuth();
-  
-  // Check if current route is admin route
-  const isAdminRoute = location.pathname.startsWith('/admin');
-  
-  // Modal ke liye state
-  const [isDevModalOpen, setDevModalOpen] = useState(false);
-
-  return (
-    <>
-      {/* Only show Header and Footer for non-admin routes */}
+    <div className="relative z-10 flex flex-col min-h-screen">
       {!isAdminRoute && <Header />}
       <main className="flex-grow">
         <Routes>
@@ -91,25 +92,17 @@ function MainContent() {
           <Route path="/admin/login" element={<AdminLogin />} />
           
           {/* Protected Routes */}
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           
           {/* Admin Routes */}
-          <Route path="/admin/dashboard" element={
-            <AdminRoute>
-              <AdminDashboard />
-            </AdminRoute>
-          } />
+          <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
           
           {/* Catch all route */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
       
-      {/* Footer and Developer Credit ko conditionally render karein */}
+      {/* Conditionally render Footer and Developer Credit */}
       {!isAdminRoute && (
         <>
           <Footer />
@@ -117,15 +110,20 @@ function MainContent() {
           <DeveloperModal isOpen={isDevModalOpen} onClose={() => setDevModalOpen(false)} />
         </>
       )}
-    </>
+    </div>
   );
-}
+};
 
+// The main App component that ties everything together
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <AppContent />
+        <ScrollToTop /> {/* This will reset scroll on every page change */}
+        <div className="min-h-screen bg-gray-900">
+          <AppBackground /> {/* Background Layer */}
+          <AppLayout />     {/* Content Layer (Header, Pages, Footer) */}
+        </div>
       </AuthProvider>
     </Router>
   );
