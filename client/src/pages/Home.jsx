@@ -298,7 +298,7 @@ const Home = () => {
           {loading ? (
             <div className="text-center text-white/70">Loading...</div>
           ) : (
-            <div className="flex items-center justify-between lg:gap-10 gap-5">
+            <div className="flex items-center justify-between lg:gap-10 gap-3">
               {/* Professional Left Arrow */}
               <button 
                 onClick={() => scrollByAmount(eventsRef, -600)} 
@@ -309,18 +309,18 @@ const Home = () => {
               
               <div ref={eventsRef} className="flex gap-9 overflow-x-auto snap-x snap-mandatory no-scrollbar px-4" style={{ scrollBehavior: 'smooth' }}>
                 {events.slice(0, 10).map((event, i) => (
-                  <div key={event._id} className=" snap-start shrink-0 lg:w-85 w-70 ">
+                  <div key={event._id} className=" snap-start shrink-0 lg:w-85 w-60 ">
                     <div className={`glass-card rounded-xl overflow-hidden transition-transform duration-300 `}>
                       {/* Portrait layout: 60% poster (top), 40% info (bottom) */}
-                      <div className="h-[30rem] lg:h-[30rem] flex flex-col">
-                        <div className="h-[60%] bg-black/40">
+                      <div className="h-[25rem] lg:h-[30rem] flex flex-col">
+                        <div className="h-[50%] bg-black/40">
                           {event.poster ? (
                             <img src={getPosterUrl(event.poster)} alt={`${event.title} Poster`} className="w-full h-full " onError={(e) => (e.currentTarget.style.display='none')} />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-white/50">Poster Uploading Soon</div>
                           )}
                         </div>
-                        <div className="h-[40%] p-4 flex flex-col">
+                        <div className="h-[50%] p-4 flex flex-col">
                           
                           <h3 className="text-white font-bold text-base line-clamp-2 mb-2">{event.title}</h3>
                           <p className='text-white/80 text-sm'>{event.description}</p>
@@ -360,7 +360,7 @@ const Home = () => {
           <h2 className="text-4xl font-extrabold"><span className="text-white">Our </span><span className="tech-outline">Team</span></h2>
           </div>
           
-          <div className="flex items-center gap-10 justify-between">
+          <div className="flex items-center lg:gap-10 gap-3 justify-between">
             {/* Professional Left Arrow */}
             <button 
               onClick={() => scrollByAmount(teamRef, -320)} 
