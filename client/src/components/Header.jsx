@@ -33,7 +33,8 @@ const Header = () => {
   return (
     <header className="bg-transparent shadow-none sticky top-0 z-50 pointer-events-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="mt-5 md:mt-7 w-[94%] md:w-auto h-14 md:h-16 mx-auto flex justify-between items-center rounded-full bg-[#0c1220]/90 border border-white/10 backdrop-blur px-4 md:px-6 shadow-lg pointer-events-auto">
+        {/* --- CHANGE #1: md: prefix ko lg: prefix se replace kiya hai --- */}
+        <div className="mt-5 lg:mt-7 w-[94%] lg:w-auto h-14 lg:h-16 mx-auto flex justify-between items-center rounded-full bg-[#0c1220]/90 border border-white/10 backdrop-blur px-4 lg:px-6 shadow-lg pointer-events-auto">
           {/* Brand */}
           <Link to="/" className="flex items-center space-x-2 select-none">
             {/* Mobile avatar on the far left when logged in */}
@@ -42,7 +43,8 @@ const Header = () => {
                 onClick={() =>
                   navigate(user ? "/dashboard" : "/admin/dashboard")
                 }
-                className="md:hidden w-8 h-8 rounded-full bg-white/10 border border-cyan-400/40 text-cyan-200 flex items-center justify-center mr-2"
+                // --- CHANGE #1 (continued): md:hidden ko lg:hidden kiya ---
+                className="lg:hidden w-8 h-8 rounded-full bg-white/10 border border-cyan-400/40 text-cyan-200 flex items-center justify-center mr-2"
               >
                 {getAvatarInitial()}
               </button>
@@ -55,7 +57,8 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-6">
+          {/* --- CHANGE #1 (continued): hidden md:flex ko hidden lg:flex kiya --- */}
+          <nav className="hidden lg:flex space-x-6">
             <Link
               to="/"
               className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${
@@ -174,12 +177,14 @@ const Header = () => {
           </nav>
 
           {/* Desktop Auth */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* --- CHANGE #1 (continued): hidden md:flex ko hidden lg:flex kiya --- */}
+          <div className="hidden lg:flex items-center gap-3">
             {user ? (
               <>
+                {/* --- CHANGE #2: Desktop avatar ko bhi clickable banaya --- */}
                 <button
                   onClick={() => navigate("/dashboard")}
-                  className="w-9 h-9 rounded-full bg-white/10 border border-cyan-400/40 text-cyan-200 flex items-center justify-center"
+                  className="w-9 h-9 rounded-full bg-white/10 border border-cyan-400/40 text-cyan-200 flex items-center justify-center cursor-pointer hover:bg-white/20 transition-colors"
                 >
                   {getAvatarInitial()}
                 </button>
@@ -198,9 +203,10 @@ const Header = () => {
               </>
             ) : admin ? (
               <>
+                {/* --- CHANGE #2: Admin ke desktop avatar ko bhi clickable banaya --- */}
                 <button
                   onClick={() => navigate("/admin/dashboard")}
-                  className="w-9 h-9 rounded-full bg-white/10 border border-red-400/40 text-red-300 flex items-center justify-center"
+                  className="w-9 h-9 rounded-full bg-white/10 border border-red-400/40 text-red-300 flex items-center justify-center cursor-pointer hover:bg-white/20 transition-colors"
                 >
                   {getAvatarInitial()}
                 </button>
@@ -227,7 +233,7 @@ const Header = () => {
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-3 py-1.5 rounded-md  hover:bg-cyan-600 text-white text-sm border-1 border-cyan-400"
+                  className="px-3 py-1.5 rounded-md bg-cyan-500 hover:bg-cyan-600 text-white text-sm"
                 >
                   Sign Up
                 </Link>
@@ -236,7 +242,8 @@ const Header = () => {
           </div>
 
           {/* Mobile auth/menu btn */}
-          <div className="md:hidden">
+          {/* --- CHANGE #1 (continued): md:hidden ko lg:hidden kiya --- */}
+          <div className="lg:hidden">
             <button
               onClick={toggleMobileMenu}
               className="text-white/80 hover:text-white p-2"

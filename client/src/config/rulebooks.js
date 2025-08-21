@@ -10,7 +10,7 @@ export const rulebookMap = {
     '68a23e43fefccbb92c70eee3': '/rulebooks/Maze Solver.pdf',
     '68a23e43fefccbb92c70eee9': '/rulebooks/Robo Rush (Robo Race).pdf',
     '68a23e43fefccbb92c70eeef': '/rulebooks/Hurdle Mania.pdf',
-    '68a23e43fefccbb92c70eef5': '/rulebooks/Tricky.pdf',
+    '68a23e43fefccbb92c70eef5': '/rulebooks/Tricky Circuit (Proteus).pdf',
     '68a23e43fefccbb92c70eefb': '/rulebooks/AutoCad Design Challenge.pdf',
     '68a23e43fefccbb92c70ef01': '/rulebooks/Web Development.pdf',
     '68a23e43fefccbb92c70ef07': '/rulebooks/Coding Contest.pdf',

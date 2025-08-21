@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import TechBackground from "../components/TechBackground"; // Assuming you have this
 
 const Login = () => {
   const [formData, setFormData] = useState({ emailId: "", password: "" });
@@ -14,6 +15,9 @@ const Login = () => {
     userId: "",
   });
   const [forgotResult, setForgotResult] = useState(null);
+
+  // --- YAHAN CHANGE HAI ---
+  const [showPassword, setShowPassword] = useState(false); // Password visibility ke liye state
 
   const { loginUser, forgotUserId, forgotPassword } = useAuth();
   const navigate = useNavigate();
@@ -72,7 +76,6 @@ const Login = () => {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    // You might want a better notification system than alert
     alert("Copied to clipboard!");
   };
 
@@ -85,10 +88,9 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      
+      <TechBackground />
       <div className="relative z-10 max-w-md w-full space-y-8">
         <div className="glass-card rounded-2xl p-8 border border-cyan-400/20 shadow-2xl shadow-cyan-500/10">
-          {/* Header */}
           <div className="text-center mb-8">
             <div className="w-20 h-20 bg-gradient-to-br from-cyan-900 via-gray-800 to-gray-900 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-cyan-400/50">
               <span
@@ -105,25 +107,28 @@ const Login = () => {
               Authenticate to access Vision Fest '25
             </p>
           </div>
-
-          {/* Login Form */}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <InputField
                 id="emailId"
                 name="emailId"
                 type="email"
-                placeholder="Email ID"
+                placeholder="Email ID or User ID"
                 value={formData.emailId}
                 onChange={handleInputChange}
+                required
               />
-              <InputField
+
+              {/* --- YAHAN CHANGE HAI --- */}
+              <PasswordField
                 id="password"
                 name="password"
-                type="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleInputChange}
+                show={showPassword}
+                toggleShow={() => setShowPassword(!showPassword)}
+                required
               />
             </div>
 
@@ -175,11 +180,9 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Forgot Modal */}
       {showForgotModal && (
         <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="glass-card rounded-2xl p-6 max-w-md w-full border border-cyan-400/30">
-            {/* ... Modal content remains the same, but will inherit the techie feel */}
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-white">
                 {forgotType === "userid" ? "Recover User ID" : "Reset Password"}
@@ -203,7 +206,6 @@ const Login = () => {
                 </svg>
               </button>
             </div>
-
             {!forgotResult ? (
               <form onSubmit={handleForgotSubmit} className="space-y-4">
                 {forgotType === "userid" ? (
@@ -321,7 +323,7 @@ const Login = () => {
   );
 };
 
-// Reusable Input Field component for a consistent tech look
+// Reusable Input Field (No changes here)
 const InputField = ({
   id,
   name,
@@ -346,6 +348,80 @@ const InputField = ({
       placeholder={placeholder}
     />
   </div>
+);
+
+// --- YAHAN NAYE COMPONENTS ADD KIYE HAIN ---
+
+// Reusable Password Field component with eye icon
+const PasswordField = ({
+  id,
+  name,
+  placeholder,
+  value,
+  onChange,
+  show,
+  toggleShow,
+  required = false,
+}) => (
+  <div className="relative">
+    <label htmlFor={id} className="sr-only">
+      {placeholder}
+    </label>
+    <input
+      id={id}
+      name={name}
+      type={show ? "text" : "password"}
+      required={required}
+      value={value}
+      onChange={onChange}
+      className="w-full px-4 py-3 pr-10 bg-gray-700/50 border-2 border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors"
+      placeholder={placeholder}
+    />
+    <button
+      type="button"
+      onClick={toggleShow}
+      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-cyan-400"
+    >
+      {show ? <EyeOffIcon /> : <EyeIcon />}
+    </button>
+  </div>
+);
+
+const EyeIcon = () => (
+  <svg
+    className="h-5 w-5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+    />
+  </svg>
+);
+const EyeOffIcon = () => (
+  <svg
+    className="h-5 w-5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+    />
+  </svg>
 );
 
 export default Login;

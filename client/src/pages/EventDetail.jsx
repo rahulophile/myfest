@@ -343,7 +343,7 @@ const EventDetail = () => {
         className="min-h-screen w-full bg-cover bg-center bg-fixed"
         style={{ backgroundImage: `url(${posterUrl})` }}
       >
-        <div className="min-h-screen w-full bg-black/80 backdrop-blur-sm">
+        <div className="min-h-screen w-full bg-black/30 backdrop-blur-sm">
           <button
             onClick={() => navigate("/events")}
             className="absolute top-6 left-6 z-10 text-white bg-black/30 hover:bg-black/50 px-3 py-1 rounded-md transition-colors"
