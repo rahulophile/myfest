@@ -66,7 +66,7 @@ const Footer = () => {
             <h4 className="font-semibold mb-3">Contact</h4>
             <ul className="space-y-2 text-white/80">
               <li>GEC Vaishali, Bihar</li>
-              <li>Email: vision@gecvaishali.ac.in</li>
+              <li>Email: vzngecv@gmail.com</li>
               <li>Phone: +91-98765-43210</li>
             </ul>
           </div>
@@ -75,6 +75,7 @@ const Footer = () => {
         <div className="mt-10 border-t border-white/10 pt-6 text-center text-white/60 text-sm">
           © {currentYear} Vision '25. All rights reserved.
         </div>
+        
       </div>
     </footer>
   );
