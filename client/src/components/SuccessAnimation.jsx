@@ -18,7 +18,7 @@ const SuccessAnimation = ({
         setIsAnimating(false);
         // Delay closing to allow outro animation to finish
         setTimeout(onClose, 500);
-      }, 4000); // Auto close after 4 seconds
+      }, 5000); // Auto close after 5 seconds
 
       return () => {
         clearTimeout(timer);
@@ -36,24 +36,28 @@ const SuccessAnimation = ({
       color: 'cyan',
       shadow: 'shadow-cyan-500/50',
       gradient: 'from-cyan-500 to-blue-600',
+      buttonBg: 'bg-cyan-600 hover:bg-cyan-700'
     },
     error: {
       icon: <IconError />,
       color: 'red',
       shadow: 'shadow-red-500/50',
       gradient: 'from-red-500 to-orange-600',
+      buttonBg: 'bg-red-600 hover:bg-red-700'
     },
     warning: {
       icon: <IconWarning />,
       color: 'amber',
       shadow: 'shadow-amber-500/50',
       gradient: 'from-amber-500 to-yellow-600',
+      buttonBg: 'bg-amber-600 hover:bg-amber-700'
     },
     info: {
       icon: <IconInfo />,
       color: 'indigo',
       shadow: 'shadow-indigo-500/50',
       gradient: 'from-indigo-500 to-purple-600',
+      buttonBg: 'bg-indigo-600 hover:bg-indigo-700'
     }
   };
   const theme = themes[type] || themes.success;
@@ -81,7 +85,6 @@ const SuccessAnimation = ({
         <CornerBracket position="bottom-2 right-2" transform="rotate-180" />
         
         <div className="p-8 text-center">
-          {/* Animated Icon */}
           <div className="mb-6">
             <div className={`
               inline-flex items-center justify-center w-24 h-24 rounded-full bg-gray-800/50
@@ -94,7 +97,6 @@ const SuccessAnimation = ({
             </div>
           </div>
 
-          {/* Title */}
           <h3 className={`
             text-2xl font-bold mb-3 text-white code-font transition-all duration-700 delay-200
             ${isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
@@ -102,18 +104,30 @@ const SuccessAnimation = ({
             {title}
           </h3>
 
-          {/* Message */}
           <p className={`
             text-gray-300 mb-8 transition-all duration-700 delay-300
             ${isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
           `}>
             {message}
           </p>
+          
+          {/* --- CLOSE BUTTON ADDED HERE --- */}
+          <button
+            onClick={onClose}
+            className={`
+              w-full px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300
+              ${theme.buttonBg} transform hover:scale-105
+              ${isAnimating ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
+            `}
+            style={{ transitionDelay: '400ms' }}
+          >
+            Close
+          </button>
 
           {/* Auto-close Progress Bar */}
-          <div className="absolute bottom-4 left-4 right-4 h-1 bg-gray-700/50 rounded-full overflow-hidden">
+          <div className="absolute bottom-4 left-4 right-4 h-1 bg-gray-700/50 rounded-full overflow-hidden mt-4">
             <div
-              className={`h-full bg-gradient-to-r ${theme.gradient} transition-all duration-3000 ease-linear rounded-full`}
+              className={`h-full bg-gradient-to-r ${theme.gradient} transition-all duration-[4500ms] ease-linear`}
               style={{ width: isAnimating ? '100%' : '0%' }}
             />
           </div>
@@ -125,7 +139,6 @@ const SuccessAnimation = ({
 
 // --- HELPER COMPONENTS ---
 
-// Corner bracket for techy HUD feel
 const CornerBracket = ({ position, transform = '' }) => (
   <div className={`absolute ${position} w-6 h-6 pointer-events-none text-cyan-400/30 ${transform}`}>
     <svg fill="none" viewBox="0 0 24 24">
@@ -134,7 +147,6 @@ const CornerBracket = ({ position, transform = '' }) => (
   </div>
 );
 
-// Animated Icon Components
 const IconSuccess = () => (
   <svg className="w-12 h-12 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path className="path-check" d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -184,6 +196,5 @@ const IconInfo = () => (
     `}</style>
   </svg>
 );
-
 
 export default SuccessAnimation;

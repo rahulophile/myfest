@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 // System boot messages jo ek-ek karke aayenge
 const bootUpLines = [
-  "INITIALIZING VISION_OS...",
+  "INITIALIZING V-OS...",
   "V-KERNEL V2.5 DETECTED",
   "LOADING CORE MODULES...",
   "MOUNTING VIRTUAL DOM...",
@@ -14,7 +14,7 @@ const bootUpLines = [
 
 const SplashScreen = ({ onFinished }) => {
   const [progress, setProgress] = useState(0);
-  const [bootMessages, setBootMessages] = useState([]);
+  const [bootMessage, setBootMessage] = useState("INITIALIZING...");
   const [phase, setPhase] = useState("booting"); // booting -> loading -> complete -> fade
 
   const bootAudioRef = useRef(null);
@@ -23,120 +23,144 @@ const SplashScreen = ({ onFinished }) => {
 
   useEffect(() => {
     // Audio setup
-    bootAudioRef.current = new Audio("/clash-sound.mp3");
-    completeAudioRef.current = new Audio("/boom-sound.mp3");
-    glitchAudioRef.current = new Audio("/boom-sound.mp3");
+    bootAudioRef.current = new Audio("/boot-sequence.mp3");
+    completeAudioRef.current = new Audio("/boot-complete.mp3");
+    glitchAudioRef.current = new Audio("/glitch-out.mp3");
     bootAudioRef.current.volume = 0.3;
     completeAudioRef.current.volume = 0.5;
     glitchAudioRef.current.volume = 0.4;
 
-    // --- Animation Sequence ---
-
-    // 1. Booting Messages
     bootAudioRef.current.play();
+
+    // Booting messages animation
     let messageIndex = 0;
     const messageInterval = setInterval(() => {
-      setBootMessages((prev) => [...prev, bootUpLines[messageIndex]]);
-      messageIndex++;
-      if (messageIndex === bootUpLines.length) {
+      if (messageIndex < bootUpLines.length) {
+        setBootMessage(bootUpLines[messageIndex]);
+        messageIndex++;
+      } else {
         clearInterval(messageInterval);
-        setTimeout(() => setPhase("loading"), 500); // Start loading after last message
+        setPhase("loading");
       }
-    }, 300); // Har 300ms par naya message
+    }, 400); // Har 400ms par naya message
 
-    // Cleanup for timeouts
-    const timeouts = [];
-
-    return () => {
-      clearInterval(messageInterval);
-      timeouts.forEach(clearTimeout);
-      if (bootAudioRef.current) bootAudioRef.current.pause();
-    };
+    // Cleanup
+    return () => clearInterval(messageInterval);
   }, []);
 
-  // 2. Loading Progress Bar (yeh phase change par trigger hoga)
+  // Loading progress bar animation
   useEffect(() => {
     if (phase === "loading") {
       const progressInterval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(progressInterval);
-            setTimeout(() => setPhase("complete"), 200);
+            setPhase("complete");
             return 100;
           }
-          return prev + 1;
+          return prev + 2; // Thoda fast
         });
-      }, 30); // 3 seconds mein 0 se 100
+      }, 50);
 
       return () => clearInterval(progressInterval);
     }
   }, [phase]);
 
-  // 3. Completion and Fade out
+  // Completion and fade out animation
   useEffect(() => {
     if (phase === "complete") {
       bootAudioRef.current.pause();
       completeAudioRef.current.play();
+      setBootMessage("ACCESS GRANTED");
 
-      const fadeTimeout = setTimeout(() => setPhase("fade"), 1000); // 1s tak "SYSTEM INITIALIZED" dikhayein
       const finishTimeout = setTimeout(() => {
+        setPhase("fade");
         glitchAudioRef.current.play();
-        onFinished();
-      }, 1500); // 0.5s fade out ke liye
+        setTimeout(onFinished, 500); // Animation ke baad finish call karein
+      }, 1200);
 
-      return () => {
-        clearTimeout(fadeTimeout);
-        clearTimeout(finishTimeout);
-      };
+      return () => clearTimeout(finishTimeout);
     }
   }, [phase, onFinished]);
 
   return (
     <>
       <style>{`
-        @keyframes blinking-cursor { 50% { opacity: 0; } }
-        @keyframes text-glitch { 0%, 100% { transform: translate(0, 0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-1px, 1px); } 80% { transform: translate(1px, -1px); } }
-        .glitch-out { animation: text-glitch 0.3s forwards; }
+        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes blink-cursor { 50% { opacity: 0; } }
+        @keyframes text-glitch { 0%, 100% { transform: translate(0, 0) skewX(0); opacity: 1; } 20% { transform: translate(-3px, 2px) skewX(5deg); } 40% { transform: translate(3px, -2px) skewX(-5deg); } 60% { transform: translate(-2px, 1px) skewX(2deg); } 80% { transform: translate(1px, -2px) skewX(-2deg); } }
+        .glitch-out { animation: text-glitch 0.5s forwards; }
+        .progress-ring {
+          stroke-dasharray: 283; /* 2 * PI * 45 */
+          stroke-dashoffset: 283;
+          transition: stroke-dashoffset 0.1s linear;
+        }
       `}</style>
       <div
-        className={`fixed inset-0 bg-black z-[100] flex items-center justify-center font-mono text-green-400 transition-opacity duration-500 ${
+        className={`fixed inset-0 bg-black z-[100] flex items-center justify-center font-mono text-cyan-400 transition-opacity duration-500 ${
           phase === "fade" ? "opacity-0 glitch-out" : "opacity-100"
         }`}
       >
-        <div className="w-full max-w-2xl p-4">
-          {/* Booting Messages */}
-          {phase === "booting" && (
-            <div>
-              {bootMessages.map((msg, i) => (
-                <p key={i}>&gt; {msg}</p>
-              ))}
-              <span
-                className="w-2 h-4 bg-green-400 inline-block"
-                style={{ animation: "blinking-cursor 1s step-end infinite" }}
-              ></span>
-            </div>
-          )}
+        <div className="w-full max-w-sm p-4 text-center">
+          {/* Cybernetic Eye */}
+          <div className="relative w-48 h-48 mx-auto mb-8">
+            <div
+              className="absolute inset-0 border-2 border-cyan-500/30 rounded-full animate-spin"
+              style={{ animationName: "spin-slow", animationDuration: "10s" }}
+            ></div>
+            <div
+              className="absolute inset-2 border-2 border-cyan-500/20 rounded-full animate-spin"
+              style={{
+                animationName: "spin-slow",
+                animationDuration: "15s",
+                animationDirection: "reverse",
+              }}
+            ></div>
 
-          {/* Loading Progress */}
-          {(phase === "loading" || phase === "complete") && (
-            <div className="text-center">
-              <p className="text-2xl mb-4">[ {Math.floor(progress)}% ]</p>
-              <div className="w-full h-4 bg-green-900/50 border border-green-500 p-0.5">
-                <div
-                  className="h-full bg-green-500 transition-all duration-100"
-                  style={{
-                    width: `${progress}%`,
-                    boxShadow: "0 0 10px #22c55e",
-                  }}
-                ></div>
-              </div>
-              {phase === "complete" && (
-                <p className="text-xl mt-4 text-white animate-pulse">
-                  SYSTEM INITIALIZED... ACCESS GRANTED
-                </p>
-              )}
+            {/* Circular Progress Bar */}
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox="0 0 100 100"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="transparent"
+                stroke="#083344"
+                strokeWidth="4"
+              />
+              <circle
+                className="progress-ring"
+                cx="50"
+                cy="50"
+                r="45"
+                fill="transparent"
+                stroke="#06b6d4"
+                strokeWidth="4"
+                strokeLinecap="round"
+                transform="rotate(-90 50 50)"
+                style={{ strokeDashoffset: 283 - (progress / 100) * 283 }}
+              />
+            </svg>
+
+            {/* Percentage */}
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-4xl font-bold text-white code-font">
+                {Math.floor(progress)}
+                <span className="text-2xl">%</span>
+              </span>
             </div>
-          )}
+          </div>
+
+          {/* Status Text */}
+          <p className="text-lg text-white/90 h-6">
+            {bootMessage}
+            <span
+              className="w-2 h-4 bg-cyan-400 inline-block ml-1"
+              style={{ animation: "blink-cursor 1s step-end infinite" }}
+            ></span>
+          </p>
         </div>
       </div>
     </>

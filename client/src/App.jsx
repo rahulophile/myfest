@@ -149,8 +149,9 @@ const AppLayout = () => {
   );
 };
 
-// The main App component that ties everything together
-function App() {
+// --- YAHAN CHANGES HAIN ---
+// App component ko "Wrapper" bana diya hai taaki Router aur State aaram se manage ho
+function AppWrapper() {
   const [isIntroPlaying, setIsIntroPlaying] = useState(true);
 
   useEffect(() => {
@@ -163,21 +164,27 @@ function App() {
     }
   }, []);
 
-  // Jab tak intro chal raha hai, sirf SplashScreen dikhayega
   if (isIntroPlaying) {
     return <SplashScreen onFinished={() => setIsIntroPlaying(false)} />;
   }
 
-  // Intro khatam hone ke baad poori website dikhayega
+  // Jab intro khatam ho jaaye, tab poori website ko render karein
+  return (
+    <AuthProvider>
+      <ScrollToTop />
+      <div className="min-h-screen bg-gray-900">
+        <AppBackground />
+        <AppLayout />
+      </div>
+    </AuthProvider>
+  );
+}
+
+// Final App component ab sirf Router ko render karega
+function App() {
   return (
     <Router>
-      <AuthProvider>
-        <ScrollToTop />
-        <div className="min-h-screen bg-gray-900">
-          <AppBackground />
-          <AppLayout />
-        </div>
-      </AuthProvider>
+      <AppWrapper />
     </Router>
   );
 }

@@ -1,34 +1,40 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import TechBackground from "../components/TechBackground"; // Assuming you have this
+import TechBackground from "../components/TechBackground";
 
 const Login = () => {
+  // Login form states
   const [formData, setFormData] = useState({ emailId: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Forgot password modal states
   const [showForgotModal, setShowForgotModal] = useState(false);
-  const [forgotType, setForgotType] = useState("userid");
+  const [forgotStep, setForgotStep] = useState(1); // 1: Enter Email, 2: Enter OTP & New Pass
   const [forgotData, setForgotData] = useState({
-    registrationNumber: "",
     emailId: "",
-    userId: "",
+    otp: "",
+    newPassword: "",
   });
+  const [forgotLoading, setForgotLoading] = useState(false);
   const [forgotResult, setForgotResult] = useState(null);
 
-  // --- YAHAN CHANGE HAI ---
-  const [showPassword, setShowPassword] = useState(false); // Password visibility ke liye state
-
-  const { loginUser, forgotUserId, forgotPassword } = useAuth();
+  const {
+    loginUser,
+    requestForgotPasswordOTP,
+    verifyForgotPasswordOTPAndReset,
+  } = useAuth();
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
   };
-
   const handleForgotInputChange = (e) => {
     setForgotData({ ...forgotData, [e.target.name]: e.target.value });
+    setForgotResult(null);
   };
 
   const handleSubmit = async (e) => {
@@ -37,13 +43,10 @@ const Login = () => {
     setError("");
     try {
       const result = await loginUser(formData.emailId, formData.password);
-      if (result.success) {
-        navigate("/dashboard");
-      } else {
-        setError(result.message);
-      }
+      if (result.success) navigate("/dashboard");
+      else setError(result.message);
     } catch (error) {
-      setError("An unexpected error occurred. Please try again.");
+      setError("An unexpected error occurred.");
     } finally {
       setLoading(false);
     }
@@ -51,46 +54,56 @@ const Login = () => {
 
   const handleForgotSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setForgotLoading(true);
     setForgotResult(null);
-    try {
-      let result;
-      if (forgotType === "userid") {
-        result = await forgotUserId(
-          forgotData.registrationNumber,
-          forgotData.emailId
-        );
+
+    if (forgotStep === 1) {
+      // Step 1: Request OTP
+      const result = await requestForgotPasswordOTP(forgotData.emailId);
+      if (result.success) {
+        setForgotStep(2); // Move to OTP step on success
+        setForgotResult({ success: true, message: result.message });
       } else {
-        result = await forgotPassword(forgotData.userId);
+        setForgotResult(result);
       }
+    } else if (forgotStep === 2) {
+      // Step 2: Verify OTP & Reset
+      if (forgotData.newPassword.length < 8) {
+        setForgotResult({
+          success: false,
+          message: "Password must be at least 8 characters.",
+        });
+        setForgotLoading(false);
+        return;
+      }
+      const result = await verifyForgotPasswordOTPAndReset(
+        forgotData.emailId,
+        forgotData.otp,
+        forgotData.newPassword
+      );
       setForgotResult(result);
-    } catch (error) {
-      setForgotResult({
-        success: false,
-        message: "An unexpected error occurred.",
-      });
-    } finally {
-      setLoading(false);
+      if (result.success) {
+        setTimeout(() => {
+          setShowForgotModal(false);
+          setForgotResult(null); // Reset for next time
+        }, 3000);
+      }
     }
+    setForgotLoading(false);
   };
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-    alert("Copied to clipboard!");
-  };
-
-  const openForgotModal = (type) => {
-    setForgotType(type);
+  const openForgotModal = () => {
     setShowForgotModal(true);
     setForgotResult(null);
-    setForgotData({ registrationNumber: "", emailId: "", userId: "" });
+    setForgotData({ emailId: "", otp: "", newPassword: "" });
+    setForgotStep(1); // Always start from step 1
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen flex items-center justify-center py-12 px-4">
       <TechBackground />
-      <div className="relative z-10 max-w-md w-full space-y-8">
-        <div className="glass-card rounded-2xl p-8 border border-cyan-400/20 shadow-2xl shadow-cyan-500/10">
+      <div className="relative z-10 max-w-md w-full">
+        <div className="glass-card rounded-2xl p-8 border border-cyan-400/20">
           <div className="text-center mb-8">
             <div className="w-20 h-20 bg-gradient-to-br from-cyan-900 via-gray-800 to-gray-900 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-cyan-400/50">
               <span
@@ -108,70 +121,51 @@ const Login = () => {
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <InputField
-                id="emailId"
-                name="emailId"
-                type="email"
-                placeholder="Email ID or User ID"
-                value={formData.emailId}
-                onChange={handleInputChange}
-                required
-              />
-
-              {/* --- YAHAN CHANGE HAI --- */}
-              <PasswordField
-                id="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange}
-                show={showPassword}
-                toggleShow={() => setShowPassword(!showPassword)}
-                required
-              />
-            </div>
-
+            <InputField
+              id="emailId"
+              name="emailId"
+              type="text"
+              placeholder="Email ID or User ID"
+              value={formData.emailId}
+              onChange={handleInputChange}
+              required
+            />
+            <PasswordField
+              id="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleInputChange}
+              show={showPassword}
+              toggleShow={() => setShowPassword(!showPassword)}
+              required
+            />
             {error && (
               <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-md text-sm">
                 {error}
               </div>
             )}
-
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-end text-sm">
               <button
                 type="button"
-                onClick={() => openForgotModal("password")}
+                onClick={openForgotModal}
                 className="font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
               >
                 Forgot Password?
               </button>
-              <button
-                type="button"
-                onClick={() => openForgotModal("userid")}
-                className="font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
-              >
-                Forgot User ID?
-              </button>
             </div>
-
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              className="w-full flex justify-center py-3 font-semibold rounded-md text-white bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50"
             >
-              {loading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-              ) : (
-                "ACCESS DASHBOARD"
-              )}
+              {loading ? <SpinnerIcon /> : "ACCESS DASHBOARD"}
             </button>
-
             <p className="text-center text-sm text-gray-400">
               No account yet?{" "}
               <Link
                 to="/signup"
-                className="font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+                className="font-medium text-cyan-400 hover:text-cyan-300"
               >
                 Register here
               </Link>
@@ -185,137 +179,97 @@ const Login = () => {
           <div className="glass-card rounded-2xl p-6 max-w-md w-full border border-cyan-400/30">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-white">
-                {forgotType === "userid" ? "Recover User ID" : "Reset Password"}
+                Reset Password
               </h3>
               <button
                 onClick={() => setShowForgotModal(false)}
                 className="text-gray-400 hover:text-white"
               >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                &times;
               </button>
             </div>
-            {!forgotResult ? (
-              <form onSubmit={handleForgotSubmit} className="space-y-4">
-                {forgotType === "userid" ? (
-                  <>
-                    <InputField
-                      id="registrationNumber"
-                      name="registrationNumber"
-                      type="text"
-                      placeholder="Enter Registration Number"
-                      value={forgotData.registrationNumber}
-                      onChange={handleForgotInputChange}
-                      required
-                    />
-                    <InputField
-                      id="emailId"
-                      name="emailId"
-                      type="email"
-                      placeholder="Enter Registered Email ID"
-                      value={forgotData.emailId}
-                      onChange={handleForgotInputChange}
-                      required
-                    />
-                  </>
-                ) : (
+
+            {/* --- YAHAN FIX KIYA GAYA HAI --- */}
+            {/* Message Area */}
+            {forgotResult && (
+              <div
+                className={`p-3 rounded-md text-sm mb-4 ${
+                  forgotResult.success
+                    ? "bg-green-900/50 text-green-200"
+                    : "bg-red-900/50 text-red-200"
+                }`}
+              >
+                {forgotResult.message}
+              </div>
+            )}
+
+            {/* Form Area - Ab yeh final success ke baad hide nahi hoga, balki doosra button dikhega */}
+            <form onSubmit={handleForgotSubmit} className="space-y-4">
+              {forgotStep === 1 && (
+                <>
+                  <p className="text-sm text-gray-300">
+                    Enter your registered email to receive an OTP.
+                  </p>
                   <InputField
-                    id="userId"
-                    name="userId"
-                    type="text"
-                    placeholder="Enter your VZN25 User ID"
-                    value={forgotData.userId}
+                    id="emailId"
+                    name="emailId"
+                    type="email"
+                    placeholder="Enter your Email ID"
+                    value={forgotData.emailId}
                     onChange={handleForgotInputChange}
                     required
                   />
-                )}
-                <div className="flex space-x-3 pt-2">
+                </>
+              )}
+              {forgotStep === 2 && (
+                <>
+                  <InputField
+                    id="otp"
+                    name="otp"
+                    placeholder="6-Digit OTP from Email"
+                    value={forgotData.otp}
+                    onChange={handleForgotInputChange}
+                    required
+                  />
+                  <PasswordField
+                    placeholder="Enter New Password"
+                    name="newPassword"
+                    value={forgotData.newPassword}
+                    onChange={handleForgotInputChange}
+                    show={showPassword}
+                    toggleShow={() => setShowPassword(!showPassword)}
+                    required
+                  />
+                </>
+              )}
+
+              {/* Buttons */}
+              <div className="flex space-x-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowForgotModal(false)}
+                  className="flex-1 bg-gray-600/50 hover:bg-gray-700/50 text-white py-2 rounded-md text-sm"
+                >
+                  Cancel
+                </button>
+                {/* Submit button hamesha dikhega (jab tak final success na ho) */}
+                {!(forgotResult?.success && forgotStep === 2) && (
                   <button
                     type="submit"
-                    disabled={loading}
-                    className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
+                    disabled={forgotLoading}
+                    className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-md text-sm disabled:opacity-50"
                   >
-                    {loading ? "Processing..." : "Submit"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowForgotModal(false)}
-                    className="flex-1 bg-gray-600/50 hover:bg-gray-700/50 text-white px-4 py-2 rounded-md text-sm font-medium"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div className="space-y-4">
-                {forgotResult.success ? (
-                  <div className="bg-green-900/50 border border-green-700 text-green-200 px-4 py-3 rounded-md">
-                    <p className="font-medium mb-2">
-                      {forgotType === "userid"
-                        ? "User ID Found!"
-                        : "Password Reset Info"}
-                    </p>
-                    {forgotType === "userid" ? (
-                      <div>
-                        <p className="mb-2">
-                          Your User ID:{" "}
-                          <span className="font-mono bg-gray-700/50 px-2 py-1 rounded">
-                            {forgotResult.data.userId}
-                          </span>
-                        </p>
-                        <button
-                          onClick={() =>
-                            copyToClipboard(forgotResult.data.userId)
-                          }
-                          className="bg-green-700 hover:bg-green-600 text-white px-3 py-1 rounded text-sm mt-2"
-                        >
-                          Copy User ID
-                        </button>
-                      </div>
+                    {forgotLoading ? (
+                      <SpinnerIcon />
+                    ) : forgotStep === 1 ? (
+                      "Get OTP"
                     ) : (
-                      <div>
-                        <p className="mb-2">
-                          {forgotResult.data.newPassword
-                            ? "Your new password is:"
-                            : "Password reset instructions have been sent."}
-                        </p>
-                        {forgotResult.data.newPassword && (
-                          <p className="font-mono text-lg font-bold bg-gray-700/50 px-2 py-1 rounded">
-                            {forgotResult.data.newPassword}
-                          </p>
-                        )}
-                        {forgotResult.data.note && (
-                          <p className="text-xs mt-2 text-blue-300">
-                            {forgotResult.data.note}
-                          </p>
-                        )}
-                      </div>
+                      "Reset Password"
                     )}
-                  </div>
-                ) : (
-                  <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-md">
-                    {forgotResult.message}
-                  </div>
+                  </button>
                 )}
-                <button
-                  onClick={() => setShowForgotModal(false)}
-                  className="w-full bg-gray-600/50 hover:bg-gray-700/50 text-white px-4 py-2 rounded-md text-sm font-medium"
-                >
-                  Close
-                </button>
               </div>
-            )}
+            </form>
           </div>
         </div>
       )}
@@ -323,36 +277,13 @@ const Login = () => {
   );
 };
 
-// Reusable Input Field (No changes here)
-const InputField = ({
-  id,
-  name,
-  type,
-  placeholder,
-  value,
-  onChange,
-  required = false,
-}) => (
-  <div>
-    <label htmlFor={id} className="sr-only">
-      {placeholder}
-    </label>
-    <input
-      id={id}
-      name={name}
-      type={type}
-      required={required}
-      value={value}
-      onChange={onChange}
-      className="w-full px-4 py-3 bg-gray-700/50 border-2 border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors"
-      placeholder={placeholder}
-    />
-  </div>
+// --- BAAKI KE HELPER COMPONENTS BILKUL WAISE HI RAHENGE ---
+const InputField = (props) => (
+  <input
+    {...props}
+    className="w-full px-4 py-3 bg-gray-700/50 border-2 border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-colors"
+  />
 );
-
-// --- YAHAN NAYE COMPONENTS ADD KIYE HAIN ---
-
-// Reusable Password Field component with eye icon
 const PasswordField = ({
   id,
   name,
@@ -361,32 +292,32 @@ const PasswordField = ({
   onChange,
   show,
   toggleShow,
-  required = false,
+  required,
 }) => (
   <div className="relative">
-    <label htmlFor={id} className="sr-only">
-      {placeholder}
-    </label>
-    <input
+    {" "}
+    <InputField
       id={id}
       name={name}
       type={show ? "text" : "password"}
-      required={required}
+      placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="w-full px-4 py-3 pr-10 bg-gray-700/50 border-2 border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors"
-      placeholder={placeholder}
-    />
+      required={required}
+      className="pr-10"
+    />{" "}
     <button
       type="button"
       onClick={toggleShow}
       className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-cyan-400"
     >
       {show ? <EyeOffIcon /> : <EyeIcon />}
-    </button>
+    </button>{" "}
   </div>
 );
-
+const SpinnerIcon = () => (
+  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mx-auto"></div>
+);
 const EyeIcon = () => (
   <svg
     className="h-5 w-5"
