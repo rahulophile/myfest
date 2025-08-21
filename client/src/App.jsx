@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Header from './components/Header';
@@ -32,7 +32,10 @@ import DashboardBackground from './components/DashboardBackground';
 import DeveloperCredit from './components/DeveloperCredit';
 import DeveloperModal from './components/DeveloperModal';
 
-// Protected Route Components
+// Naya SplashScreen component import karein
+import SplashScreen from './components/SplashScreen';
+
+// Protected Route Components (No change)
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   if (loading) return <Spinner />;
@@ -45,30 +48,41 @@ const AdminRoute = ({ children }) => {
   return admin ? children : <Navigate to="/admin/login" replace />;
 };
 
-// This component decides which background to show
+// AppBackground Component (No change)
 const AppBackground = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
-
-  if (isAdminRoute) return null; // No background for admin pages
-
-  // Select background based on route
+  if (isAdminRoute) return null;
   if (location.pathname.startsWith('/events')) return <EventBackground />;
   if (location.pathname === '/team') return <TeamBackground />;
   if (location.pathname === '/gallery') return <GalleryBackground />;
   if (location.pathname === '/contact') return <ContactBackground />;
   if (location.pathname === '/dashboard') return <DashboardBackground />;
-  
-  // Default background for Home, Login, Signup, etc.
   return <TechBackground />;
 };
 
-// This component manages the main layout
+// AppLayout Component (No change)
 const AppLayout = () => {
   const { loading } = useAuth();
   const location = useLocation();
   const [isDevModalOpen, setDevModalOpen] = useState(false);
   const isAdminRoute = location.pathname.startsWith('/admin');
+
+  useEffect(() => {
+    const clickSound = new Audio('/click-sound.mp3');
+    clickSound.volume = 0.2;
+    const playSound = (event) => {
+      const target = event.target;
+      if (target.closest('a, button, input[type="checkbox"], input[type="radio"], select')) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(error => console.error("Sound play error:", error));
+      }
+    };
+    document.addEventListener('click', playSound);
+    return () => {
+      document.removeEventListener('click', playSound);
+    };
+  }, []);
 
   if (loading) {
     return <Spinner />;
@@ -79,7 +93,6 @@ const AppLayout = () => {
       {!isAdminRoute && <Header />}
       <main className="flex-grow">
         <Routes>
-          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:eventId" element={<EventDetail />} />
@@ -90,19 +103,12 @@ const AppLayout = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          
-          {/* Protected Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          
-          {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-          
-          {/* Catch all route */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
       
-      {/* Conditionally render Footer and Developer Credit */}
       {!isAdminRoute && (
         <>
           <Footer />
@@ -116,13 +122,32 @@ const AppLayout = () => {
 
 // The main App component that ties everything together
 function App() {
+  // --- YAHAN CHANGES HAIN: SPLASH SCREEN LOGIC ---
+  const [isIntroPlaying, setIsIntroPlaying] = useState(true);
+
+  useEffect(() => {
+    // Session storage check karega taaki animation sirf ek baar chale
+    const hasSeenIntro = sessionStorage.getItem('hasSeenIntro');
+    if (hasSeenIntro) {
+      setIsIntroPlaying(false);
+    } else {
+      sessionStorage.setItem('hasSeenIntro', 'true');
+    }
+  }, []);
+
+  // Jab tak intro chal raha hai, sirf SplashScreen dikhayega
+  if (isIntroPlaying) {
+    return <SplashScreen onFinished={() => setIsIntroPlaying(false)} />;
+  }
+
+  // Intro khatam hone ke baad poori website dikhayega
   return (
     <Router>
       <AuthProvider>
-        <ScrollToTop /> {/* This will reset scroll on every page change */}
+        <ScrollToTop />
         <div className="min-h-screen bg-gray-900">
-          <AppBackground /> {/* Background Layer */}
-          <AppLayout />     {/* Content Layer (Header, Pages, Footer) */}
+          <AppBackground />
+          <AppLayout />
         </div>
       </AuthProvider>
     </Router>

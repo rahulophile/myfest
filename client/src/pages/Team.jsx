@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { buildApiUrl } from "../config/config";
-import TeamBackground from "../components/TeamBackground";
+
 
 const Team = () => {
   const [facultyMembers, setFacultyMembers] = useState([]);
@@ -142,7 +142,7 @@ const Team = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-cyan-400 mx-auto"></div>
           <p className="text-white text-xl mt-4">Loading team information...</p>
@@ -172,7 +172,7 @@ const Team = () => {
     // CHANGE IS HERE: Removed bg-[#0a0f1a] and overflow-hidden.
     // The content itself is now relative to stack on top of the fixed background.
     <div className="relative"> 
-      <TeamBackground />
+      
       
       {/* The rest of your page content does not need to change */}
       <div className="relative z-10">
@@ -197,10 +197,10 @@ const Team = () => {
               <h2 className="text-3xl font-bold text-white mb-4">
                 Faculty Incharge
               </h2>
-              <p className="text-gray-300 max-w-2xl mx-auto">
+              {/* <p className="text-gray-300 max-w-2xl mx-auto">
                 Our experienced faculty members provide guidance and support to
                 ensure Vision Fest 25 is a resounding success across all events.
-              </p>
+              </p> */}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-15">

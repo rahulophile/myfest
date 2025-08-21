@@ -14,7 +14,7 @@ export const rulebookMap = {
     '68a23e43fefccbb92c70eefb': '/rulebooks/AutoCad Design Challenge.pdf',
     '68a23e43fefccbb92c70ef01': '/rulebooks/Web Development.pdf',
     '68a23e43fefccbb92c70ef07': '/rulebooks/Coding Contest.pdf',
-    '68a23e43fefccbb92c70ef0d': '/rulebooks/The open .pdf',
+    '68a23e43fefccbb92c70ef0d': '/rulebooks/The Open Circuit.pdf',
     '68a23e43fefccbb92c70ef13': '/rulebooks/Truss.pdf',
     '68a23e43fefccbb92c70ef19': '/rulebooks/Robo Soccer.pdf',
     '68a23e43fefccbb92c70ef1f': '/rulebooks/E-sports.pdf',
