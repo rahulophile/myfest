@@ -33,16 +33,16 @@ app.use(helmet({
 // CORS Configuration
 const allowedOrigins = [
   'https://vzn-8070.onrender.com', // Aapka deployed frontend URL
-  'http://localhost:5173',         // Aapka local development URL
+  'http://localhost:5173',
+  'https://visiongecv.in',
+  'https://www.visiongecv.in',        
   // Agar aapke paas koi aur frontend URL hai to yahan add karein
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, Postman, curl)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Agar request ka origin allowed list mein hai, ya request server se hi aa rahi hai (!origin), to allow karo
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
