@@ -311,22 +311,12 @@ const EventDetail = () => {
     }
   };
 
-  // --- YEH NAYA CODE ADD KAREIN ---
-const getPosterUrl = (event) => {
-  // Priority 1: Frontend map
-  if (event && event._id && posterMap[event._id]) {
-    return posterMap[event._id];
-  }
-  // Priority 2: Backend path
-  const posterPath = event?.poster;
-  if (posterPath && !posterPath.includes('placeholder')) {
-    if (posterPath.startsWith("http")) return posterPath;
-    if (posterPath.startsWith("/")) return `${BACKEND_URL}${posterPath}`;
-    return `${BACKEND_URL}/${posterPath}`;
-  }
-  // Priority 3: Default
-  return defaultEventPoster;
-};
+  const getPosterUrl = (p) =>
+    p
+      ? p.startsWith("http")
+        ? p
+        : `${BACKEND_URL}${p.startsWith("/") ? "" : "/"}${p}`
+      : "";
 
   if (loading)
     return (
@@ -347,7 +337,7 @@ const getPosterUrl = (event) => {
     );
 
   const isRegistrationOpen = new Date() < new Date(event.registrationDeadline);
-  const posterUrl = getPosterUrl(event);
+  const posterUrl = getPosterUrl(event.poster);
 
   return (
     <>
@@ -358,7 +348,7 @@ const getPosterUrl = (event) => {
         <meta property="og:title" content={`${event.title} | Vision'25`} />
         <meta property="og:description" content={event.description} />
         {/* Agar har event ka alag poster hai to usko OG image bana sakte hain */}
-        {event && <meta property="og:image" content={getPosterUrl(event)} />}
+        {event.poster && <meta property="og:image" content={getPosterUrl(event.poster)} />}
       </Helmet>
       <div
         className="min-h-screen w-full bg-cover bg-center bg-fixed"
