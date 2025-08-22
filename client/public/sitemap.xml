@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<!-- Website ke zaroori pages -->
+
+<url>
+  <loc>https://visiongecv.in/</loc>
+  <lastmod>2025-08-23T00:00:00+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://visiongecv.in/events</loc>
+  <lastmod>2025-08-23T00:00:00+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://visiongecv.in/team</loc>
+  <lastmod>2025-08-23T00:00:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://visiongecv.in/gallery</loc>
+  <lastmod>2025-08-23T00:00:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://visiongecv.in/contact</loc>
+  <lastmod>2025-08-23T00:00:00+00:00</lastmod>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://visiongecv.in/login</loc>
+  <lastmod>2025-08-23T00:00:00+00:00</lastmod>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://visiongecv.in/signup</loc>
+  <lastmod>2025-08-23T00:00:00+00:00</lastmod>
+  <priority>0.60</priority>
+</url>
+
+<!-- 
+    Yahan par aap apne saare event detail pages ke links daal sakte hain.
+    Yeh optional hai, lekin accha rehta hai.
+    Example:
+    <url>
+      <loc>https://visiongecv.in/events/EVENT_ID_1</loc>
+      <lastmod>2025-08-23T00:00:00+00:00</lastmod>
+      <priority>0.85</priority>
+    </url>
+-->
+
+</urlset>
