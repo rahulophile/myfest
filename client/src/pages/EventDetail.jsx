@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from "../context/AuthContext";
 import SuccessAnimation from "../components/SuccessAnimation";
 import { buildApiUrl, BACKEND_URL } from "../config/config";
@@ -339,6 +340,15 @@ const EventDetail = () => {
 
   return (
     <>
+    <Helmet>
+        <title>{`${event.title} | Events | Vision'25`}</title>
+        <meta name="description" content={`Participate in ${event.title} at Vision'25. ${event.description}`} />
+        <link rel="canonical" href={`https://visiongecv.in/events/${eventId}`} />
+        <meta property="og:title" content={`${event.title} | Vision'25`} />
+        <meta property="og:description" content={event.description} />
+        {/* Agar har event ka alag poster hai to usko OG image bana sakte hain */}
+        {event.poster && <meta property="og:image" content={getPosterUrl(event.poster)} />}
+      </Helmet>
       <div
         className="min-h-screen w-full bg-cover bg-center bg-fixed"
         style={{ backgroundImage: `url(${posterUrl})` }}

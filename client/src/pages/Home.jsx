@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from "../context/AuthContext";
 import { buildApiUrl, BACKEND_URL } from "../config/config";
 import SocialBar from "../components/SocialBar";
@@ -177,7 +178,20 @@ const Home = () => {
   };
 
   return (
+    <>
+    <Helmet>
+        <title>Vision'25 | GEC Vaishali's Annual Tech Fest</title>
+        <meta name="description" content="Join Vision'25, the premier annual technical festival of GEC Vaishali. Explore exciting events like robotics, coding, web development, and more. Register now!" />
+        <link rel="canonical" href="https://visiongecv.in/" /> {/* Aapka main domain */}
+        <meta property="og:title" content="Vision'25 | GEC Vaishali's Annual Tech Fest" />
+        <meta property="og:description" content="Experience innovation, competition, and learning at Vision'25, the annual tech fest of GEC Vaishali." />
+        <meta property="og:image" content="https://visiongecv.in/path/to/your/og-image.jpg" /> {/* Ek accha sa image URL daalein */}
+        <meta property="og:url" content="https://visiongecv.in/" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+    
     <div className="overflow-hidden">
+      
       <SocialBar />
 
       {/* Hero Section */}
@@ -647,6 +661,7 @@ const Home = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

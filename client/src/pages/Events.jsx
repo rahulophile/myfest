@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { buildApiUrl, BACKEND_URL } from '../config/config';
 
 
@@ -50,7 +51,14 @@ const Events = () => {
   }
 
   return (
-    
+    <>
+    <Helmet>
+        <title>All Events | Vision'25 Tech Fest</title>
+        <meta name="description" content="Explore all the technical and non-technical events at Vision'25, GEC Vaishali's annual fest. Find details about robotics, coding, design challenges, and more." />
+        <link rel="canonical" href="https://visiongecv.in/events" />
+        <meta property="og:title" content="All Events | Vision'25 Tech Fest" />
+        <meta property="og:description" content="Browse the full list of exciting events happening at Vision'25." />
+      </Helmet>
       <div className="relative z-10">
         <div className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -123,7 +131,7 @@ const Events = () => {
           )}
         </div>
       </div>
-   
+      </>
   );
 };
 

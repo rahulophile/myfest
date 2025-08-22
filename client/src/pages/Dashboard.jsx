@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+
 import { useAuth } from '../context/AuthContext';
 import { buildApiUrl } from '../config/config';
 
@@ -96,7 +98,11 @@ const Dashboard = () => {
   }
 
   return (
-    
+    <>
+    <Helmet>
+        <title>My Dashboard | Vision'25</title>
+        <meta name="robots" content="noindex, nofollow" /> {/* Yeh Google ko is page ko index karne se rokega */}
+      </Helmet>
       <div className="relative z-10">
         {/* Header */}
         <div className="lg:py-15 py-12">
@@ -166,7 +172,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    
+      </>
   );
 };
 

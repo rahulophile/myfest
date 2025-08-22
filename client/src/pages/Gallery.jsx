@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+
 
 
 const Gallery = () => {
@@ -7,8 +9,14 @@ const Gallery = () => {
   // const categories = ['all', 'Technical Events', 'Cultural Events', 'Workshops', 'Award Ceremony', 'Campus Life'];
 
   return (
-    
-      
+    <>
+    <Helmet>
+    <title>Gallery | Vision'25 Tech Fest</title>
+    <meta name="description" content="Relive the moments from Vision'25. Browse through photos of technical events, cultural celebrations, and workshops at GEC Vaishali." />
+    <link rel="canonical" href="https://visiongecv.in/gallery" />
+    <meta property="og:title" content="Gallery | Vision'25 Tech Fest" />
+    <meta property="og:description" content="Relive the moments from Vision'25 at GEC Vaishali." />
+  </Helmet>
       <div className="relative z-10">
         {/* Header */}
         <div className="py-16">
@@ -45,7 +53,7 @@ const Gallery = () => {
           
         </div>
       </div>
-    
+      </>
   );
 };
 

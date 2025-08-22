@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+
 
 
 const Contact = () => {
@@ -36,8 +38,14 @@ const Contact = () => {
   };
 
   return (
-    
-      
+    <>
+    <Helmet>
+    <title>Contact Us | Vision'25 Tech Fest</title>
+    <meta name="description" content="Get in touch with the Vision'25 team at GEC Vaishali. Send us a message for inquiries about events, sponsorship, or any other questions." />
+    <link rel="canonical" href="https://visiongecv.in/contact" />
+    <meta property="og:title" content="Contact Us | Vision'25 Tech Fest" />
+    <meta property="og:description" content="Have questions about Vision'25? Reach out to our team." />
+  </Helmet>
       <div className="relative z-10">
         {/* Header */}
         <div className="py-16">
@@ -131,7 +139,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    
+      </>
   );
 };
 

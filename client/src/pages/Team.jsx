@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from 'react-helmet-async';
 import { buildApiUrl } from "../config/config";
 
 
@@ -171,6 +172,15 @@ const Team = () => {
   return (
     // CHANGE IS HERE: Removed bg-[#0a0f1a] and overflow-hidden.
     // The content itself is now relative to stack on top of the fixed background.
+    <>
+    
+    <Helmet>
+        <title>Our Team | Vision'25 Tech Fest</title>
+        <meta name="description" content="Meet the dedicated faculty and talented student coordinators behind Vision'25 at GEC Vaishali. The team that makes the magic happen." />
+        <link rel="canonical" href="https://visiongecv.in/team" />
+        <meta property="og:title" content="Our Team | Vision'25 Tech Fest" />
+        <meta property="og:description" content="Meet the dedicated faculty and talented student coordinators of Vision'25." />
+      </Helmet>
     <div className="relative"> 
       
       
@@ -359,6 +369,7 @@ const Team = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
