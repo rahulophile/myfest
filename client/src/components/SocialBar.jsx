@@ -2,7 +2,7 @@ import React from 'react';
 
 const SocialBar = () => {
   const links = [
-    { href: 'https://instagram.com', label: 'Instagram', icon: (
+    { href: 'https://www.instagram.com/vision.gecv/', label: 'Instagram', icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 4h10a3 3 0 013 3v10a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.5 6.5h.01"/></svg>
     )},
     { href: 'https://x.com', label: 'X', icon: (

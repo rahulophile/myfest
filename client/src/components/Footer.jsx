@@ -6,7 +6,7 @@ const Footer = ({ onDeveloperClick }) => { // onDeveloperClick prop receive kare
 
   const socials = [
     {
-      key: 'instagram', href: '#', icon: (
+      key: 'instagram', href: 'https://www.instagram.com/vision.gecv/', icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       )
     },
@@ -62,7 +62,7 @@ const Footer = ({ onDeveloperClick }) => { // onDeveloperClick prop receive kare
             <ul className="space-y-2 text-white/80">
               <li>GEC Vaishali, Bihar</li>
               <li>Email: vzngecv@gmail.com</li>
-              <li>Phone: +91-98765-43210</li>
+              <li>Phone: +91 9006108744</li>
             </ul>
           </div>
         </div>
