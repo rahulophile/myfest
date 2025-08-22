@@ -1,7 +1,7 @@
 // Backend configuration
-// export const BACKEND_URL = 'http://localhost:8000';
+export const BACKEND_URL = 'http://localhost:8000';
 // hhello
-export const BACKEND_URL = 'https://myfest.onrender.com';
+// export const BACKEND_URL = 'https://myfest.onrender.com';
 
 // API endpoints
 export const API_ENDPOINTS = {

@@ -18,61 +18,61 @@ const Home = () => {
     {
       name: "Dr.  Ravi Ranjan",
       dept: "Mentor",
-      photo: "",
+      photo: "./images/profRavi.jpeg",
       role: "Asst. Prof./HOD ECE",
     },
     {
       name: "Mr.  Vivek Raj",
       dept: "Faculty Incharge",
-      photo: "",
+      photo: "./images/profVivek.jpg",
       role: "Asst. Prof. CSE",
     },
     {
       name: "Dr.  Ganesh Kr. Thakur",
       dept: "Faculty Coordinator",
-      photo: "",
+      photo: "./images/profGanesh.jpg",
       role: "Asst. Prof. Humanities",
     },
     {
       name: "Mr.  Manoj Kumar Sah",
       dept: "Faculty Coordinator",
-      photo: "",
+      photo: "./images/profManoj.jpg",
       role: "Asst. Prof. CSE",
     },
     {
       name: "Mrs. Garima Yadav",
       dept: "Faculty Coordinator",
-      photo: "",
+      photo: "./images/profGarima.jpeg",
       role: "Asst. Prof. CE",
     },
     {
       name: "Mrs. Nivedita Singh",
       dept: "Faculty Coordinator",
-      photo: "",
+      photo: "./images/profNivedita.jpg",
       role: "Asst. Prof. ECE",
     },
     {
       name: "Mrs. Sunaina",
       dept: "Faculty Coordinator",
-      photo: "",
+      photo: "./images/profSunaina.jpeg",
       role: "Asst. Prof. ECE",
     },
     {
       name: "Mr.  Kumar Abhinav",
       dept: "Faculty Coordinator",
-      photo: "",
+      photo: "/images/profAbhinav.jpg",
       role: "Asst. Prof. EE",
     },
     {
       name: "Mr.  Anrudh Shandilya",
       dept: "Faculty Coordinator",
-      photo: "",
+      photo: "./images/profSandilya.jpg",
       role: "Asst. Prof. ME",
     },
     {
       name: "Mr.  Narayan Kumar",
       dept: "Faculty Coordinator",
-      photo: "",
+      photo: "./images/profNarayan.jpeg",
       role: "Asst. Prof. ME",
     },
   ];
@@ -89,7 +89,7 @@ const Home = () => {
       role: "Student Coordinator",
       dept: "Join Secretary",
       phone: "+91 8434671276",
-    },  
+    },
     {
       name: "Ashutosh Kant",
       role: "Student Coordinator",
@@ -114,7 +114,7 @@ const Home = () => {
       dept: "Research & Development Coordinator",
       phone: "+91 7857845665",
     },
-    
+
     {
       name: "Vivek Kumar",
       role: "Student Coordinator",
@@ -127,7 +127,6 @@ const Home = () => {
       dept: "Coordinator",
       phone: "+91 7544077538",
     },
-    
   ];
 
   // Helper function to get poster URL
@@ -196,26 +195,26 @@ const Home = () => {
             <p className="mt-3 text-white/60 text-lg content-font">
               Join us for the most exciting technical fest of 2025!
             </p>
-            <p className="mt-1 text-white/70 text-base tracking-widest">
+            <p className="mt-1 text-cyan-400 t text-base tracking-widest">
               13 – 14 Sep 2025
             </p>
 
             {/* Techie Down Arrow */}
-            <div className="mt-12  flex justify-center">
+            <div className="mt-25  flex justify-center">
               <button
                 onClick={() =>
                   document
                     .getElementById("about-section")
                     .scrollIntoView({ behavior: "smooth" })
                 }
-                className="group relative cursor-pointer p-4 rounded-full hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-blue-500/20 transition-all duration-500 hover:scale-110"
+                className="group relative cursor-pointer p- rounded-full hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-blue-500/20 transition-all duration-500 hover:scale-110"
               >
                 {/* Outer ring with animation */}
                 <div className="absolute inset-0 rounded-full border-2 border-cyan-400/50 animate-ping"></div>
                 <div className="absolute inset-0 rounded-full border-2 border-blue-400/30 animate-pulse"></div>
 
                 {/* Main arrow container */}
-                <div className="relative bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full p-3 shadow-lg hover:shadow-cyan-500/25 transition-all duration-300">
+                <div className="relative bg-gradient-to-br from-cyan-500 to-cyan rounded-full p-3 shadow-lg hover:shadow-cyan-500/25 transition-all duration-300">
                   <svg
                     className="w-8 h-8 text-white group-hover:animate-bounce"
                     fill="none"
@@ -281,7 +280,11 @@ const Home = () => {
             {/* Principal */}
             <div className="glass-card rounded-2xl p-8 flex items-start gap-5">
               <div className="w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center flex-shrink-0 shadow-lg">
-                <span className="text-white text-2xl font-bold">A</span>
+                <img
+                  src="./images/DrAnant.jpg"
+                  alt="Dr Anant Kumar"
+                  className=" rounded-full border-2 border-cyan-400"
+                />
               </div>
               <div className="flex-1">
                 <h3 className="text-3xl font-bold text-white mb-1">
@@ -330,16 +333,32 @@ const Home = () => {
                         key={idx}
                         className="shrink-0 w-[190px] glass-card rounded-xl p-4 text-center hover:transform hover:scale-105 transition-all duration-300 border border-slate-600/30"
                       >
-                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 mx-auto mb-3 flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                          {f.name.charAt(5)}
+                        <div className="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-slate-600 to-slate-700 mx-auto mb-3 flex items-center justify-center shadow-lg border-2  border-cyan-400">
+                          {f.photo ? (
+                            <img
+                              src={f.photo}
+                              alt={f.name}
+                              className="w-full h-full object-cover "
+                              onError={(e) =>
+                                (e.currentTarget.style.display = "none")
+                              }
+                            />
+                          ) : (
+                            <div className="text-white font-bold text-lg">
+                              {f.name.charAt(0)}
+                            </div>
+                          )}
                         </div>
+
                         <div className="text-white font-semibold text-sm mb-2">
                           {f.name}
                         </div>
                         <div className="text-slate-300 text-xs font-medium mb-1">
                           {f.role}
                         </div>
-                        <div className="text-cyan-400 text-xs"><b>{f.dept}</b></div>
+                        <div className="text-cyan-400 text-xs">
+                          <b>{f.dept}</b>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -361,7 +380,11 @@ const Home = () => {
             {/* Principal - Centered on mobile */}
             <div className="glass-card rounded-2xl p-6 flex flex-col items-center text-center gap-4">
               <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center flex-shrink-0 shadow-lg">
-                <span className="text-white text-3xl font-bold">A</span>
+                <img
+                  src="./images/DrAnant.jpg"
+                  alt="Dr Anant Kumar"
+                  className=" rounded-full border-2 border-cyan-400"
+                />
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-white mb-2">
@@ -409,16 +432,31 @@ const Home = () => {
                       key={idx}
                       className="shrink-0 w-[240px] glass-card rounded-xl p-5 text-center hover:transform hover:scale-105 transition-all duration-300 border border-slate-600/30"
                     >
-                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 mx-auto mb-3 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
-                        {f.name.charAt(5)}
-                      </div>
+                      <div className="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-slate-600 to-slate-700 mx-auto mb-3 flex items-center justify-center shadow-lg border-2  border-cyan-400">
+                          {f.photo ? (
+                            <img
+                              src={f.photo}
+                              alt={f.name}
+                              className="w-full h-full object-cover "
+                              onError={(e) =>
+                                (e.currentTarget.style.display = "none")
+                              }
+                            />
+                          ) : (
+                            <div className="text-white font-bold text-lg">
+                              {f.name.charAt(0)}
+                            </div>
+                          )}
+                        </div>
                       <div className="text-white font-semibold text-lg mb-2">
                         {f.name}
                       </div>
                       <div className="text-slate-300 text-base font-medium mb-2">
                         {f.role}
                       </div>
-                      <div className="text-cyan-400 text-sm"><b>{f.dept}</b></div>
+                      <div className="text-cyan-400 text-sm">
+                        <b>{f.dept}</b>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -448,12 +486,12 @@ const Home = () => {
           </div>
 
           {loading ? (
-            
             <div className="text-center flex items-center justify-center flex-col h-50">
               <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-cyan-400 mx-auto"></div>
-              <p className="text-cyan-400 text-lg mt-4"><b>Loading Events...</b></p>
+              <p className="text-cyan-400 text-lg mt-4">
+                <b>Loading Events...</b>
+              </p>
             </div>
-          
           ) : (
             <div className="flex items-center justify-between lg:gap-10 gap-3">
               {/* Professional Left Arrow */}
@@ -503,8 +541,12 @@ const Home = () => {
                             {event.description}
                           </p>
                           <div className="mt-2 lg:mt-5 flex justify-between text-xs text-gray-400 ">
-                            <span className="text-cyan-400">Team Spots Filled</span>
-                            <span className="text-cyan-400">{event.currentTeams} / {event.maxTeams}</span>
+                            <span className="text-cyan-400">
+                              Team Spots Filled
+                            </span>
+                            <span className="text-cyan-400">
+                              {event.currentTeams} / {event.maxTeams}
+                            </span>
                           </div>
 
                           <div className="mt-auto">
@@ -578,8 +620,9 @@ const Home = () => {
                   </div>
                   <div className="text-white font-semibold">{m.name}</div>
                   <div className="text-slate-300 text-sm">{m.role}</div>
-                  <div className="text-cyan-400 text-sm pt-1"><b>{m.dept}</b></div>
-                  
+                  <div className="text-cyan-400 text-sm pt-1">
+                    <b>{m.dept}</b>
+                  </div>
                 </div>
               ))}
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Footer = () => {
+const Footer = ({ onDeveloperClick }) => { // onDeveloperClick prop receive karein
   const currentYear = new Date().getFullYear();
 
   const socials = [
@@ -31,7 +31,6 @@ const Footer = () => {
     <footer className="footer-bg text-white border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Vision Fest Info */}
           <div className="col-span-1 md:col-span-2 glass-card rounded-xl p-6">
             <div className="mb-4">
               <h3 className="text-xl font-bold">Vision '25</h3>
@@ -49,8 +48,6 @@ const Footer = () => {
               ))}
             </div>
           </div>
-
-          {/* Quick Links */}
           <div>
             <h4 className="font-semibold mb-3">Quick Links</h4>
             <ul className="space-y-2 text-white/80">
@@ -60,8 +57,6 @@ const Footer = () => {
               <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
             </ul>
           </div>
-
-          {/* Contact */}
           <div>
             <h4 className="font-semibold mb-3">Contact</h4>
             <ul className="space-y-2 text-white/80">
@@ -71,11 +66,18 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-
-        <div className="mt-10 border-t border-white/10 pt-6 text-center text-white/60 text-sm">
-          © {currentYear} Vision '25. All rights reserved.
+        <div className="mt-10 border-t border-white/10 pt-6 text-center text-white/60 text-sm space-y-2">
+          <p>© {currentYear} Vision '25. All rights reserved.</p>
+          <p>
+            Designed & Developed with <span className="text-red-500 animate-pulse">𓆩ꨄ︎𓆪</span> by{' '}
+            <button 
+              onClick={onDeveloperClick} 
+              className="font-semibold text-cyan-400 hover:text-cyan-300 transition-colors underline underline-offset-2"
+            >
+              Rahul Raj
+            </button>
+          </p>
         </div>
-        
       </div>
     </footer>
   );

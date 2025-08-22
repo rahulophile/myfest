@@ -1,166 +1,198 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-// System boot messages jo ek-ek karke aayenge
-const bootUpLines = [
-  "INITIALIZING V-OS...",
-  "V-KERNEL V2.5 DETECTED",
-  "LOADING CORE MODULES...",
-  "MOUNTING VIRTUAL DOM...",
-  "CONNECTING TO MATRIX_NODE_7...",
-  "CONNECTION ESTABLISHED.",
-  "DECRYPTING UI_PROTOCOLS...",
-  "RENDERING INTERFACE...",
+// Animation ke stages
+const stages = [
+  { progress: 0, text: "Calibrating Robotic Arm..." },
+  { progress: 25, text: "Assembling RoboCar Chassis..." },
+  { progress: 50, text: "Integrating Humanoid AI Core..." },
+  { progress: 75, text: "Deploying Spider-Drone Scout..." },
+  { progress: 100, text: "SYSTEM ONLINE. Welcome to Vision'25" },
+];
+
+// --- SVG ICON COMPONENTS ---
+const IconRoboArm = () => (
+  <svg
+    viewBox="0 0 64 64"
+    className="w-full h-full text-cyan-400 drop-shadow-[0_0_10px_#06b6d4]"
+  >
+    {" "}
+    <path
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 52 V 32 H 24 L 32 24 L 40 32 L 48 24 L 52 28"
+      fill="none"
+    />{" "}
+    <circle cx="12" cy="52" r="4" fill="currentColor" />{" "}
+    <circle
+      cx="28"
+      cy="28"
+      r="3"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    />{" "}
+  </svg>
+);
+const IconRoboCar = () => (
+  <svg
+    viewBox="0 0 64 64"
+    className="w-full h-full text-cyan-400 drop-shadow-[0_0_10px_#06b6d4]"
+  >
+    {" "}
+    <rect
+      x="12"
+      y="30"
+      width="40"
+      height="16"
+      rx="4"
+      stroke="currentColor"
+      strokeWidth="2"
+      fill="none"
+    />{" "}
+    <circle cx="20" cy="50" r="6" fill="currentColor" />{" "}
+    <circle cx="44" cy="50" r="6" fill="currentColor" />{" "}
+    <path
+      d="M24 30 L 28 22 H 36 L 40 30"
+      stroke="currentColor"
+      strokeWidth="2"
+      fill="none"
+    />{" "}
+  </svg>
+);
+const IconHumanoid = () => (
+  <svg
+    viewBox="0 0 64 64"
+    className="w-full h-full text-cyan-400 drop-shadow-[0_0_10px_#06b6d4]"
+  >
+    {" "}
+    <circle
+      cx="32"
+      cy="18"
+      r="6"
+      stroke="currentColor"
+      strokeWidth="2"
+      fill="none"
+    />{" "}
+    <path d="M32 24 V 44" stroke="currentColor" strokeWidth="2" />{" "}
+    <path d="M22 32 H 42" stroke="currentColor" strokeWidth="2" />{" "}
+    <path d="M32 44 L 26 58" stroke="currentColor" strokeWidth="2" />{" "}
+    <path d="M32 44 L 38 58" stroke="currentColor" strokeWidth="2" />{" "}
+  </svg>
+);
+const IconSpiderBot = () => (
+  <svg
+    viewBox="0 0 64 64"
+    className="w-full h-full text-cyan-400 drop-shadow-[0_0_10px_#06b6d4]"
+  >
+    {" "}
+    <circle cx="32" cy="32" r="8" fill="currentColor" />{" "}
+    <path d="M32 40 L 20 54" stroke="currentColor" strokeWidth="2" />{" "}
+    <path d="M32 40 L 44 54" stroke="currentColor" strokeWidth="2" />{" "}
+    <path d="M32 24 L 20 10" stroke="currentColor" strokeWidth="2" />{" "}
+    <path d="M32 24 L 44 10" stroke="currentColor" strokeWidth="2" />{" "}
+    <path d="M24 32 L 10 32" stroke="currentColor" strokeWidth="2" />{" "}
+    <path d="M40 32 H 54" stroke="currentColor" strokeWidth="2" />{" "}
+  </svg>
+);
+const IconVisionLogo = () => (
+  <div className="text-5xl font-extrabold text-white flex items-center justify-center h-full">
+    <span className="tech-outline">V'25</span>
+  </div>
+);
+
+const stageIcons = [
+  <IconRoboArm />,
+  <IconRoboCar />,
+  <IconHumanoid />,
+  <IconSpiderBot />,
+  <IconVisionLogo />,
 ];
 
 const SplashScreen = ({ onFinished }) => {
+  const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [bootMessage, setBootMessage] = useState("INITIALIZING...");
-  const [phase, setPhase] = useState("booting"); // booting -> loading -> complete -> fade
-
-  const bootAudioRef = useRef(null);
-  const completeAudioRef = useRef(null);
-  const glitchAudioRef = useRef(null);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    // Audio setup
-    bootAudioRef.current = new Audio("/boot-sequence.mp3");
-    completeAudioRef.current = new Audio("/boot-complete.mp3");
-    glitchAudioRef.current = new Audio("/glitch-out.mp3");
-    bootAudioRef.current.volume = 0.3;
-    completeAudioRef.current.volume = 0.5;
-    glitchAudioRef.current.volume = 0.4;
+    // Stage change interval
+    const stageInterval = setInterval(() => {
+      setCurrentStageIndex((prev) =>
+        prev < stages.length - 1 ? prev + 1 : prev
+      );
+    }, 2000); // Har 2 second mein stage change
 
-    bootAudioRef.current.play();
-
-    // Booting messages animation
-    let messageIndex = 0;
-    const messageInterval = setInterval(() => {
-      if (messageIndex < bootUpLines.length) {
-        setBootMessage(bootUpLines[messageIndex]);
-        messageIndex++;
-      } else {
-        clearInterval(messageInterval);
-        setPhase("loading");
-      }
-    }, 400); // Har 400ms par naya message
-
-    // Cleanup
-    return () => clearInterval(messageInterval);
+    return () => clearInterval(stageInterval);
   }, []);
 
-  // Loading progress bar animation
+  // Progress bar animation
   useEffect(() => {
-    if (phase === "loading") {
-      const progressInterval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(progressInterval);
-            setPhase("complete");
-            return 100;
-          }
-          return prev + 2; // Thoda fast
-        });
-      }, 50);
+    const targetProgress = stages[currentStageIndex].progress;
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev < targetProgress) {
+          return prev + 1;
+        }
+        if (prev >= 100) {
+          clearInterval(progressInterval);
+          // 100% hone ke baad thoda ruk kar fade out karein
+          setTimeout(() => {
+            setIsFadingOut(true);
+            setTimeout(onFinished, 1000); // Fade-out ke baad finish
+          }, 1500);
+        }
+        return prev;
+      });
+    }, 20); // Speed of progress bar filling
 
-      return () => clearInterval(progressInterval);
-    }
-  }, [phase]);
-
-  // Completion and fade out animation
-  useEffect(() => {
-    if (phase === "complete") {
-      bootAudioRef.current.pause();
-      completeAudioRef.current.play();
-      setBootMessage("ACCESS GRANTED");
-
-      const finishTimeout = setTimeout(() => {
-        setPhase("fade");
-        glitchAudioRef.current.play();
-        setTimeout(onFinished, 500); // Animation ke baad finish call karein
-      }, 1200);
-
-      return () => clearTimeout(finishTimeout);
-    }
-  }, [phase, onFinished]);
+    return () => clearInterval(progressInterval);
+  }, [currentStageIndex, onFinished]);
 
   return (
     <>
       <style>{`
-        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes blink-cursor { 50% { opacity: 0; } }
         @keyframes text-glitch { 0%, 100% { transform: translate(0, 0) skewX(0); opacity: 1; } 20% { transform: translate(-3px, 2px) skewX(5deg); } 40% { transform: translate(3px, -2px) skewX(-5deg); } 60% { transform: translate(-2px, 1px) skewX(2deg); } 80% { transform: translate(1px, -2px) skewX(-2deg); } }
         .glitch-out { animation: text-glitch 0.5s forwards; }
-        .progress-ring {
-          stroke-dasharray: 283; /* 2 * PI * 45 */
-          stroke-dashoffset: 283;
-          transition: stroke-dashoffset 0.1s linear;
-        }
       `}</style>
       <div
-        className={`fixed inset-0 bg-black z-[100] flex items-center justify-center font-mono text-cyan-400 transition-opacity duration-500 ${
-          phase === "fade" ? "opacity-0 glitch-out" : "opacity-100"
+        className={`fixed inset-0 bg-black z-[100] flex items-center justify-center transition-opacity duration-1000 ${
+          isFadingOut ? "opacity-0 glitch-out" : "opacity-100"
         }`}
       >
-        <div className="w-full max-w-sm p-4 text-center">
-          {/* Cybernetic Eye */}
-          <div className="relative w-48 h-48 mx-auto mb-8">
-            <div
-              className="absolute inset-0 border-2 border-cyan-500/30 rounded-full animate-spin"
-              style={{ animationName: "spin-slow", animationDuration: "10s" }}
-            ></div>
-            <div
-              className="absolute inset-2 border-2 border-cyan-500/20 rounded-full animate-spin"
-              style={{
-                animationName: "spin-slow",
-                animationDuration: "15s",
-                animationDirection: "reverse",
-              }}
-            ></div>
-
-            {/* Circular Progress Bar */}
-            <svg
-              className="absolute inset-0 w-full h-full"
-              viewBox="0 0 100 100"
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="45"
-                fill="transparent"
-                stroke="#083344"
-                strokeWidth="4"
-              />
-              <circle
-                className="progress-ring"
-                cx="50"
-                cy="50"
-                r="45"
-                fill="transparent"
-                stroke="#06b6d4"
-                strokeWidth="4"
-                strokeLinecap="round"
-                transform="rotate(-90 50 50)"
-                style={{ strokeDashoffset: 283 - (progress / 100) * 283 }}
-              />
-            </svg>
-
-            {/* Percentage */}
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="text-4xl font-bold text-white code-font">
-                {Math.floor(progress)}
-                <span className="text-2xl">%</span>
-              </span>
-            </div>
+        <div className="w-full max-w-lg p-4 text-center">
+          {/* Animated Icons Container */}
+          <div className="relative h-48 w-48 mx-auto mb-8">
+            {stages.map((stage, index) => (
+              <div
+                key={index}
+                className="absolute inset-0 flex items-center justify-center transition-all duration-700 ease-in-out"
+                style={{
+                  opacity: currentStageIndex === index ? 1 : 0,
+                  transform: `scale(${currentStageIndex === index ? 1 : 0.8})`,
+                }}
+              >
+                {stageIcons[index]}
+              </div>
+            ))}
           </div>
 
-          {/* Status Text */}
-          <p className="text-lg text-white/90 h-6">
-            {bootMessage}
-            <span
-              className="w-2 h-4 bg-cyan-400 inline-block ml-1"
-              style={{ animation: "blink-cursor 1s step-end infinite" }}
-            ></span>
-          </p>
+          {/* Progress Bar */}
+          <div className="w-full max-w-sm mx-auto">
+            <div className="h-2 bg-cyan-900/50 rounded-full overflow-hidden border border-cyan-500/30">
+              <div
+                className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-400 rounded-full transition-all duration-300"
+                style={{ width: `${progress}%`, boxShadow: "0 0 10px #06b6d4" }}
+              ></div>
+            </div>
+
+            {/* Status Text */}
+            <div className="relative h-8 mt-4 text-white/80 font-mono">
+              <p className="absolute inset-0 transition-opacity duration-500">
+                {stages[currentStageIndex].text} [{Math.floor(progress)}%]
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </>
