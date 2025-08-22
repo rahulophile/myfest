@@ -34,7 +34,7 @@ const Header = () => {
     <header className="bg-transparent shadow-none sticky top-0 z-50 pointer-events-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* --- CHANGE #1: md: prefix ko lg: prefix se replace kiya hai --- */}
-        <div className="mt-5 lg:mt-7 w-[94%] lg:w-auto h-14 lg:h-16 mx-auto flex justify-between items-center rounded-full bg-[#0c1220]/90 border border-white/10 backdrop-blur px-4 lg:px-6 shadow-lg pointer-events-auto  ">
+        <div className="mt-5 lg:mt-7 w-[94%] lg:w-auto h-14 lg:h-16 mx-auto flex justify-between items-center rounded-full bg-[#0c1220]/90 border border-white/40 backdrop-blur px-4 lg:px-6 shadow-lg pointer-events-auto  ">
           {/* Brand */}
           <Link to="/" className="flex items-center space-x-2 select-none">
             {/* Mobile avatar on the far left when logged in */}
