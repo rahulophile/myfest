@@ -11,17 +11,17 @@ const Footer = ({ onDeveloperClick }) => { // onDeveloperClick prop receive kare
       )
     },
     {
-      key: 'x', href: '#', icon: (
+      key: 'x', href: 'https://x.com/gecvaishali?lang=en', icon: (
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.51 7.44L22.5 22h-6.9l-4.54-5.83L5.76 22H3l6.97-7.97L1.5 2h6.9l4.11 5.28L18.244 2zm-2.42 18h1.94L8.27 4H6.33l9.495 16z"/></svg>
       )
     },
     {
-      key: 'youtube', href: '#', icon: (
+      key: 'youtube', href: 'https://www.youtube.com/@GECVaishali', icon: (
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.4 3.5 12 3.5 12 3.5s-7.4 0-9.4.6A3 3 0 0 0 .5 6.2 31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c2 .6 9.4.6 9.4.6s7.4 0 9.4-.6a3 3 0 0 0 2.1-2.1c.4-1.9.5-3.8.5-5.8s-.1-3.9-.5-5.8zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
       )
     },
     {
-      key: 'linkedin', href: '#', icon: (
+      key: 'linkedin', href: 'https://www.linkedin.com/school/gec-vaishali/posts/?feedView=all', icon: (
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 5.99 3.33 5.99 7.66V24h-5V16.2c0-1.86-.03-4.25-2.59-4.25-2.6 0-3 2.02-3 4.12V24h-5V8z"/></svg>
       )
     }
@@ -61,7 +61,7 @@ const Footer = ({ onDeveloperClick }) => { // onDeveloperClick prop receive kare
             <h4 className="font-semibold mb-3">Contact</h4>
             <ul className="space-y-2 text-white/80">
               <li>GEC Vaishali, Bihar</li>
-              <li>Email: vzngecv@gmail.com</li>
+              <li className='lg:block hidden'>Email: technicalclubgecv@gmail.com</li>
               <li>Phone: +91 9006108744</li>
             </ul>
           </div>

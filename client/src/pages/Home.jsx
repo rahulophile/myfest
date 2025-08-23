@@ -85,36 +85,42 @@ const Home = () => {
       role: "Student Coordinator",
       dept: "Secretary",
       phone: "+91 9006108744",
+      photo: "./images/SumitMEM.webp",
     },
     {
       name: "Ishank Raj",
       role: "Student Coordinator",
       dept: "Join Secretary",
       phone: "+91 8434671276",
+      photo: "./images/IshankMEM.webp",
     },
     {
       name: "Ashutosh Kant",
       role: "Student Coordinator",
       dept: "3D Printing Coordinator",
       phone: "+91 9525825072",
+      photo: "./images/AshutoshMEM.webp",
     },
     {
       name: "Aman Kumar",
       role: "Student Coordinator",
       dept: "Software Coordinator",
       phone: "+91 8271989003",
+      photo: "./images/AmanMEM.jpeg",
     },
     {
       name: "Aryan Raj",
       role: "Student Coordinator",
       dept: "Hardware Coordinator",
       phone: "+91 8271989003",
+      photo: "./images/AryanMEM.webp",
     },
     {
       name: "Akash Mishra",
       role: "Student Coordinator",
       dept: "Research & Development Coordinator",
       phone: "+91 7857845665",
+      photo: "./images/AkashMEM.webp",
     },
 
     {
@@ -122,12 +128,14 @@ const Home = () => {
       role: "Student Coordinator",
       dept: "Coordinator",
       phone: "+91 8434671276",
+      photo: "./images/VivekMEM.jpeg",
     },
     {
       name: "Awneet Anmol",
       role: "Student Coordinator",
       dept: "Coordinator",
       phone: "+91 7544077538",
+      photo: "./images/AvneetMEM.jpeg",
     },
   ];
 
@@ -234,8 +242,8 @@ const getPosterUrl = (event) => {
               <p className="mt-3 text-white/60 text-lg content-font">
                 Join us for the most exciting technical fest of 2025!
               </p>
-              <p className="mt-1 text-cyan-400 t text-base tracking-widest">
-                13 – 14 Sep 2025
+              <p className="mt-1 text-cyan-300 t text-base tracking-widest">
+                <b>13 – 14 Sep 2025</b>
               </p>
 
               {/* Techie Down Arrow */}
@@ -293,7 +301,7 @@ const getPosterUrl = (event) => {
                   challenges including robotics races, autonomous navigation,
                   embedded systems, AI sprint builds, web and app hackathons,
                   CAD and structural design challenges, hardware prototyping,
-                  and a 4‑hour coding marathon.
+                  and a 4‑hour coding contest.
                 </p>
                 <p>
                   Our mission is to cultivate a culture of hands‑on engineering
@@ -547,7 +555,7 @@ const getPosterUrl = (event) => {
                   className="flex gap-9 overflow-x-auto snap-x snap-mandatory no-scrollbar px-4"
                   style={{ scrollBehavior: "smooth" }}
                 >
-                  {events.slice(0, 10).map((event, i) => (
+                  {events.slice(0, 13).map((event, i) => (
                     <div
                       key={event._id}
                       className=" snap-start shrink-0 lg:w-85 w-60 "
@@ -655,8 +663,21 @@ const getPosterUrl = (event) => {
                     key={idx}
                     className="snap-start shrink-0 lg:w-64 w-61  glass-card rounded-xl p-5 text-center hover:transform hover:scale-105 transition-all duration-300 border border-slate-600/30"
                   >
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 mx-auto mb-3 flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                      {m.name.charAt(0)}
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-cyan-400 bg-gradient-to-br from-slate-600 to-slate-700 mx-auto mb-3 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    {m.photo ? (
+                              <img
+                                src={m.photo}
+                                alt={m.name}
+                                className="w-full h-full object-cover "
+                                onError={(e) =>
+                                  (e.currentTarget.style.display = "none")
+                                }
+                              />
+                            ) : (
+                              <div className="text-white font-bold text-lg">
+                                {m.name.charAt(0)}
+                              </div>
+                            )}
                     </div>
                     <div className="text-white font-semibold">{m.name}</div>
                     <div className="text-slate-300 text-sm">{m.role}</div>

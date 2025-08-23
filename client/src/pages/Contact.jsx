@@ -1,51 +1,59 @@
-import React, { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-
-
+import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState('');
-  const [error, setError] = useState('');
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    setError('');
-    setSuccess('');
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setError("");
+    setSuccess("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setError('Please fill in all required fields');
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.message.trim()
+    ) {
+      setError("Please fill in all required fields");
       return;
     }
     setLoading(true);
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
     setTimeout(() => {
-      setSuccess('Thank you for your message! We will get back to you soon.');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setSuccess("Thank you for your message! We will get back to you soon.");
+      setFormData({ name: "", email: "", subject: "", message: "" });
       setLoading(false);
     }, 1500);
   };
 
   return (
     <>
-    <Helmet>
-    <title>Contact Us | Vision'25 Tech Fest</title>
-    <meta name="description" content="Get in touch with the Vision'25 team at GEC Vaishali. Send us a message for inquiries about events, sponsorship, or any other questions." />
-    <link rel="canonical" href="https://visiongecv.in/contact" />
-    <meta property="og:title" content="Contact Us | Vision'25 Tech Fest" />
-    <meta property="og:description" content="Have questions about Vision'25? Reach out to our team." />
-  </Helmet>
+      <Helmet>
+        <title>Contact Us | Vision'25 Tech Fest</title>
+        <meta
+          name="description"
+          content="Get in touch with the Vision'25 team at GEC Vaishali. Send us a message for inquiries about events, sponsorship, or any other questions."
+        />
+        <link rel="canonical" href="https://visiongecv.in/contact" />
+        <meta property="og:title" content="Contact Us | Vision'25 Tech Fest" />
+        <meta
+          property="og:description"
+          content="Have questions about Vision'25? Reach out to our team."
+        />
+      </Helmet>
       <div className="relative z-10">
         {/* Header */}
         <div className="py-16">
@@ -55,7 +63,8 @@ const Contact = () => {
               <span className="tech-outline">Touch</span>
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Have questions about Vision Fest 25? Want to participate or sponsor? We'd love to hear from you!
+              Have questions about Vision Fest 25? Want to participate or
+              sponsor? We'd love to hear from you!
             </p>
           </div>
         </div>
@@ -64,47 +73,97 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div className="glass-card rounded-xl p-8 border border-cyan-400/20">
-              <h2 className="text-2xl font-bold text-white mb-6">Send us a Message</h2>
+              <h2 className="text-2xl font-bold text-white mb-6">
+                Send us a Message
+              </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-300 mb-2"
+                  >
+                    Full Name *
+                  </label>
                   <input
-                    id="name" name="name" type="text" required value={formData.name} onChange={handleInputChange}
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     placeholder="Enter your full name"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email Address *</label>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-300 mb-2"
+                  >
+                    Email Address *
+                  </label>
                   <input
-                    id="email" name="email" type="email" required value={formData.email} onChange={handleInputChange}
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     placeholder="Enter your email address"
                   />
                 </div>
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">Subject</label>
+                  <label
+                    htmlFor="subject"
+                    className="block text-sm font-medium text-gray-300 mb-2"
+                  >
+                    Subject
+                  </label>
                   <input
-                    id="subject" name="subject" type="text" value={formData.subject} onChange={handleInputChange}
+                    id="subject"
+                    name="subject"
+                    type="text"
+                    value={formData.subject}
+                    onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     placeholder="What is this about?"
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">Message *</label>
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-gray-300 mb-2"
+                  >
+                    Message *
+                  </label>
                   <textarea
-                    id="message" name="message" rows={5} required value={formData.message} onChange={handleInputChange}
+                    id="message"
+                    name="message"
+                    rows={5}
+                    required
+                    value={formData.message}
+                    onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none"
                     placeholder="Tell us more..."
                   />
                 </div>
-                {error && <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-md">{error}</div>}
-                {success && <div className="bg-green-900/50 border border-green-700 text-green-200 px-4 py-3 rounded-md">{success}</div>}
+                {error && (
+                  <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-md">
+                    {error}
+                  </div>
+                )}
+                {success && (
+                  <div className="bg-green-900/50 border border-green-700 text-green-200 px-4 py-3 rounded-md">
+                    {success}
+                  </div>
+                )}
                 <button
-                  type="submit" disabled={loading}
+                  type="submit"
+                  disabled={loading}
                   className="w-full bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Sending...' : 'Send Message'}
+                  {loading ? "Sending..." : "Send Message"}
                 </button>
               </form>
             </div>
@@ -113,18 +172,37 @@ const Contact = () => {
             <div className="space-y-8">
               {/* Contact Information */}
               <div className="glass-card rounded-xl p-8 border border-cyan-400/20">
-                <h2 className="text-2xl font-bold text-white mb-6">Contact Information</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">
+                  Contact Information
+                </h2>
                 <div className="space-y-4">
-                  <InfoItem icon={<IconEmail />} title="Email" lines={["visionfest25@gecvaishali.ac.in", "info@visionfest25.com"]} />
-                  <InfoItem icon={<IconPhone />} title="Phone" lines={["+91 12345 67890", "+91 98765 43210"]} />
-                  <InfoItem icon={<IconLocation />} title="Address" lines={["Govt. Engineering College, Vaishali", "Hajipur, Bihar - 844102, India"]} />
+                  <InfoItem
+                    icon={<IconEmail />}
+                    title="Email"
+                    lines={[
+                      "technicalclubgecv@gmail.com"
+                    ]}
+                  />
+                  <InfoItem
+                    icon={<IconPhone />}
+                    title="Phone"
+                    lines={["+91 90061 08744"]}
+                  />
+                  <InfoItem
+                    icon={<IconLocation />}
+                    title="Address"
+                    lines={[
+                      "Govt. Engineering College, Vaishali",
+                      "Hajipur, Bihar - 844115, India",
+                    ]}
+                  />
                 </div>
               </div>
 
               {/* Google Maps Embed */}
               <div className="glass-card rounded-xl p-1 border border-cyan-400/20 overflow-hidden">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.8878135242693!2d85.23194537523193!3d25.70776857738226!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed65e3895e2659%3A0x289741f2a33f11e!2sGovernment%20Engineering%20College%2C%20Vaishali!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3595.3599905305628!2d85.34952497600398!3d25.692502377395456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed3fff25420e57%3A0x5a72f0d47afa9404!2sGOVERNMENT%20ENGINEERING%20COLLEGE%20VAISHALI!5e0!3m2!1sen!2sin!4v1755955524542!5m2!1sen!2sin"
                   width="100%"
                   height="300"
                   style={{ border: 0 }}
@@ -139,7 +217,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
-      </>
+    </>
   );
 };
 
@@ -152,15 +230,65 @@ const InfoItem = ({ icon, title, lines }) => (
     <div>
       <h3 className="text-white font-medium">{title}</h3>
       {lines.map((line, index) => (
-        <p key={index} className="text-gray-300">{line}</p>
+        <p key={index} className="text-gray-300">
+          {line}
+        </p>
       ))}
     </div>
   </div>
 );
 
 // Icon components for cleaner code
-const IconEmail = () => <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>;
-const IconPhone = () => <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>;
-const IconLocation = () => <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
+const IconEmail = () => (
+  <svg
+    className="w-5 h-5 text-cyan-400"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+    />
+  </svg>
+);
+const IconPhone = () => (
+  <svg
+    className="w-5 h-5 text-cyan-400"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+    />
+  </svg>
+);
+const IconLocation = () => (
+  <svg
+    className="w-5 h-5 text-cyan-400"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+    />
+  </svg>
+);
 
 export default Contact;
