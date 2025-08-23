@@ -1,4 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
+import { FaGlobe } from 'react-icons/fa';
+
 
 const DeveloperModal = ({ isOpen, onClose, targetRef }) => {
   const [position, setPosition] = useState({ top: -9999, left: -9999, opacity: 0 });
@@ -70,13 +72,15 @@ const DeveloperModal = ({ isOpen, onClose, targetRef }) => {
             </div>
           </div>
           <p className="text-gray-300 mt-4 text-sm">
-            "Crafting immersive digital experiences with a passion for clean code and futuristic design. Let's build something amazing together."
+            "Crafting immersive digital experiences with a passion for clean code and futuristic design. Let's build something amazing together." 
           </p>
           <div className="mt-4 flex justify-start gap-4 border-t border-gray-700/50 pt-4">
+          <SocialLink href="https://rahulophile.me/" icon={<FaGlobe className="w-5 h-5" title="Website" />} />
             <SocialLink href="https://github.com/rahulophile" icon={<IconGitHub />} />
             <SocialLink href="https://linkedin.com/in/rahulophile" icon={<IconLinkedIn />} />
             <SocialLink href="https://twitter.com/rahulophile" icon={<IconTwitter />} />
             <SocialLink href="mailto:rahultime2018@gmail.com" icon={<IconEmail />} />
+            
           </div>
         </div>
       </div>
@@ -88,5 +92,26 @@ const IconGitHub = () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="curr
 const IconLinkedIn = () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 5.99 3.33 5.99 7.66V24h-5V16.2c0-1.86-.03-4.25-2.59-4.25-2.6 0-3 2.02-3 4.12V24h-5V8z"/></svg>;
 const IconTwitter = () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.51 7.44L22.5 22h-6.9l-4.54-5.83L5.76 22H3l6.97-7.97L1.5 2h6.9l4.11 5.28L18.244 2zm-2.42 18h1.94L8.27 4H6.33l9.495 16z"/></svg>;
 const IconEmail = () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>;
+const IconWebsite = () => (
+  <svg
+    className="w-5 h-5"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10
+             10-4.48 10-10S17.52 2 12 2zm6.93 6h-3.16c-.29-1.51-.86-2.89-1.64-4.03
+             2.09.9 3.69 2.65 4.8 4.78zM12 4c.82 1.08 1.5 2.5 1.89 4H10.11c.39-1.5 1.07-2.92 1.89-4zM4.27 10
+             A8.03 8.03 0 0 1 7.07 5.97c-.79 1.14-1.35 2.52-1.64 4.03H4.27zM4.07 14h1.16c.29 1.51.86 2.89 1.64 4.03
+             A8.03 8.03 0 0 1 4.07 14zM10.11 20c-.39-1.5-1.07-2.92-1.89-4h5.56c-.82 1.08-1.5 2.5-1.89 4zM16.93 18.03
+             c.79-1.14 1.35-2.52 1.64-4.03h1.16a8.03 8.03 0 0 1-2.8 4.03zM18.57 10h-1.16c-.29-1.51-.86-2.89-1.64-4.03
+             A8.03 8.03 0 0 1 18.57 10zM8.24 14c.49 1.33 1.19 2.52 2.04 3.44.85-.91 1.55-2.1 2.04-3.44H8.24zm7.52 0
+             c-.49 1.33-1.19 2.52-2.04 3.44.85-.91 1.55-2.1 2.04-3.44zM8.24 10h7.52c-.49-1.33-1.19-2.52-2.04-3.44
+             -.85.91-1.55 2.1-2.04 3.44z" />
+  </svg>
+);
+
+
+
 
 export default DeveloperModal;
