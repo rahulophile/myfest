@@ -301,7 +301,7 @@ const getPosterUrl = (event) => {
                   challenges including robotics races, autonomous navigation,
                   embedded systems, AI sprint builds, web and app hackathons,
                   CAD and structural design challenges, hardware prototyping,
-                  and a 4‑hour coding contest.
+                  and a 2‑hour coding contest.
                 </p>
                 <p>
                   Our mission is to cultivate a culture of hands‑on engineering
