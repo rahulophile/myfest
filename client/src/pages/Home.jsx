@@ -24,10 +24,10 @@ const Home = () => {
       role: "Asst. Prof./HOD ECE",
     },
     {
-      name: "Mr.  Vivek Raj",
+      name: "Mr.  Vivek Kumar",
       dept: "Faculty Incharge",
-      photo: "./images/profVivek.jpg",
-      role: "Asst. Prof. CSE",
+      photo: "./images/profVivekEE.png",
+      role: "Asst. Prof. EE",
     },
     {
       name: "Dr.  Ganesh Kr. Thakur",
