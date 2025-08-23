@@ -26,7 +26,9 @@
       <h3 className="text-2xl font-bold text-white mb-2">Event Registration</h3>
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-1">
-          Team Name <span className="text-red-500">*</span>
+          Team Name<span className="text-red-500">*</span>
+          <br />
+          <p className="text-[12px] text-cyan-400">note : if you are registering for e-sports mention BGMI/FF with team name, if not then only team name </p>
         </label>
         <input
           type="text"
