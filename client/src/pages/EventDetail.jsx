@@ -83,6 +83,7 @@
           <li>No accommodation will be provided.</li>
           <li>Adding/removing members post-registration is not allowed.</li>
           <li>Read the RULEBOOK before registration.</li>
+          <li>If you take part in more than one event and their timings clash, we won’t be responsible.</li>
         </ul>
       </div>
 
