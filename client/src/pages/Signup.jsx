@@ -161,7 +161,7 @@ const Signup = () => {
                 id="registrationNumber"
                 name="registrationNumber"
                 type="text"
-                placeholder="Registration Number *"
+                placeholder="Registration/Roll Number *"
                 value={formData.registrationNumber}
                 onChange={handleInputChange}
                 required

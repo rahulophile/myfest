@@ -47,7 +47,7 @@
           <div key={memberNum}>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               {memberNum}
-              {memberNum === 2 ? "nd" : memberNum === 3 ? "rd" : "th"} Member ID{" "}
+              {memberNum === 2 ? "nd" : memberNum === 3 ? "rd" : "th"} Member Vision ID{" "}
               {isRequired && <span className="text-red-500">*</span>}
             </label>
             <input
