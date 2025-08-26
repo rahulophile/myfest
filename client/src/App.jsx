@@ -57,6 +57,7 @@ const AppContent = () => {
   const isAdminRoute = location.pathname.startsWith("/admin");
 
   useEffect(() => {
+    if (isAdminRoute) return;
     const clickSound = new Audio("/click-sound.mp3");
     clickSound.volume = 0.2;
     const playSound = (event) => {
@@ -146,18 +147,25 @@ const AppBackground = () => {
 // Final App component (ab yeh sabko wrap karega)
 function App() {
   const [isIntroPlaying, setIsIntroPlaying] = useState(true);
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   useEffect(() => {
+    if (isAdminRoute) {
+      // admin routes pe intro mat dikhao
+      setIsIntroPlaying(false);
+      return;
+    }
     const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
     if (hasSeenIntro) {
       setIsIntroPlaying(false);
     } else {
       sessionStorage.setItem("hasSeenIntro", "true");
     }
-  }, []);
+  }, [isAdminRoute]);
 
   return (
-    <Router>
+    
       <AuthProvider>
         {isIntroPlaying ? (
           <SplashScreen onFinished={() => setIsIntroPlaying(false)} />
@@ -165,7 +173,7 @@ function App() {
           <AppContent />
         )}
       </AuthProvider>
-    </Router>
+    
   );
 }
 
