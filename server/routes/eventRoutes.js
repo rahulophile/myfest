@@ -496,7 +496,7 @@ router.get('/:eventId', async (req, res) => {
     
     const event = await Event.findById(eventId)
       .populate('participants.userId', 'name userId')
-      .select('-__v');
+      .select('-__v -participants -currentTeams');
 
     if (!event) {
       return res.status(404).json({
