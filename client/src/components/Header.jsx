@@ -33,17 +33,14 @@ const Header = () => {
   return (
     <header className="bg-transparent shadow-none sticky top-0 z-50 pointer-events-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* --- CHANGE #1: md: prefix ko lg: prefix se replace kiya hai --- */}
         <div className="mt-5 lg:mt-7 w-[94%] lg:w-auto h-14 lg:h-16 mx-auto flex justify-between items-center rounded-full bg-[#0c1220]/90 border border-white/40 backdrop-blur px-4 lg:px-6 shadow-lg pointer-events-auto  ">
           {/* Brand */}
           <Link to="/" className="flex items-center space-x-2 select-none">
-            {/* Mobile avatar on the far left when logged in */}
             {(user || admin) && (
               <button
                 onClick={() =>
                   navigate(user ? "/dashboard" : "/admin/dashboard")
                 }
-                // --- CHANGE #1 (continued): md:hidden ko lg:hidden kiya ---
                 className="lg:hidden w-8 h-8 rounded-full bg-white/10 border border-cyan-400/40 text-cyan-200 flex items-center justify-center mr-2"
               >
                 {getAvatarInitial()}
@@ -57,7 +54,6 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          {/* --- CHANGE #1 (continued): hidden md:flex ko hidden lg:flex kiya --- */}
           <nav className="hidden lg:flex space-x-6">
             <Link
               to="/"
@@ -177,11 +173,9 @@ const Header = () => {
           </nav>
 
           {/* Desktop Auth */}
-          {/* --- CHANGE #1 (continued): hidden md:flex ko hidden lg:flex kiya --- */}
           <div className="hidden lg:flex items-center gap-3">
             {user ? (
               <>
-                {/* --- CHANGE #2: Desktop avatar ko bhi clickable banaya --- */}
                 <button
                   onClick={() => navigate("/dashboard")}
                   className="w-9 h-9 rounded-full bg-white/10 border border-cyan-400/40 text-cyan-200 flex items-center justify-center cursor-pointer hover:bg-white/20 transition-colors"
@@ -203,7 +197,6 @@ const Header = () => {
               </>
             ) : admin ? (
               <>
-                {/* --- CHANGE #2: Admin ke desktop avatar ko bhi clickable banaya --- */}
                 <button
                   onClick={() => navigate("/admin/dashboard")}
                   className="w-9 h-9 rounded-full bg-white/10 border border-red-400/40 text-red-300 flex items-center justify-center cursor-pointer hover:bg-white/20 transition-colors"
@@ -215,6 +208,13 @@ const Header = () => {
                   className="px-3 py-1.5 rounded-md bg-red-500/80 hover:bg-red-500 text-white text-sm"
                 >
                   Admin Panel
+                </Link>
+                {/* ===> CHANGE #1: ADDED MANAGE USERS LINK FOR ADMINS (DESKTOP) <=== */}
+                <Link
+                  to="/admin/users"
+                  className="px-3 py-1.5 rounded-md bg-white/10 text-white hover:bg-white/20 text-sm"
+                >
+                  Users
                 </Link>
                 <button
                   onClick={handleLogout}
@@ -242,7 +242,6 @@ const Header = () => {
           </div>
 
           {/* Mobile auth/menu btn */}
-          {/* --- CHANGE #1 (continued): md:hidden ko lg:hidden kiya --- */}
           <div className="lg:hidden">
             <button
               onClick={toggleMobileMenu}
@@ -326,6 +325,7 @@ const Header = () => {
                   >
                     Contact
                   </Link>
+
                   {user && (
                     <Link
                       to="/dashboard"
@@ -336,13 +336,23 @@ const Header = () => {
                     </Link>
                   )}
                   {admin && (
-                    <Link
-                      to="/admin/dashboard"
-                      className={`block px-3 py-2 rounded-md text-base font-medium text-white/80 hover:text-white hover:bg-white/5`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Admin Panel
-                    </Link>
+                    <>
+                      <Link
+                        to="/admin/dashboard"
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-white/80 hover:text-white hover:bg-white/5`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Admin Panel
+                      </Link>
+                      {/* ===> CHANGE #2: ADDED MANAGE USERS LINK FOR ADMINS (MOBILE) <=== */}
+                      <Link
+                        to="/admin/users"
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-white/80 hover:text-white hover:bg-white/5`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Manage Users
+                      </Link>
+                    </>
                   )}
                 </nav>
                 <div className="pt-3 border-t border-white/10 mt-3">
