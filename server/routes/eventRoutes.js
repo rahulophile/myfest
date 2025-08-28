@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const events = await Event.find({ isActive: true })
-      .select('title description category date venue teamSize currentTeams maxTeams isRegistrationOpen poster registrationDeadline')
+      .select('title description category date venue teamSize isRegistrationOpen poster registrationDeadline')
       .sort({ date: 1 });
 
     res.json({
@@ -36,7 +36,7 @@ router.get('/upcoming/limit/:limit', async (req, res) => {
       date: { $gt: now },
       isActive: true 
     })
-    .select('title description category date venue teamSize currentTeams maxTeams isRegistrationOpen poster registrationDeadline')
+    .select('title description category date venue teamSize isRegistrationOpen poster registrationDeadline')
     .sort({ date: 1 })
     .limit(limit);
 
@@ -64,7 +64,7 @@ router.get('/category/:category', async (req, res) => {
       category: { $regex: new RegExp(category, 'i') },
       isActive: true 
     })
-    .select('title description category date venue teamSize currentTeams maxTeams isRegistrationOpen poster registrationDeadline')
+    .select('title description category date venue teamSize isRegistrationOpen poster registrationDeadline')
     .sort({ date: 1 });
 
     res.json({
@@ -95,7 +95,7 @@ router.get('/search/:query', async (req, res) => {
       ],
       isActive: true
     })
-    .select('title description category date venue teamSize currentTeams maxTeams isRegistrationOpen poster registrationDeadline')
+    .select('title description category date venue teamSize isRegistrationOpen poster registrationDeadline')
     .sort({ date: 1 });
 
     res.json({
