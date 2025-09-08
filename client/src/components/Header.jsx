@@ -170,6 +170,30 @@ const Header = () => {
               </svg>
               Contact
             </Link>
+            <Link
+  to="/sponsors"
+  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${
+    isActive("/sponsors")
+      ? "text-cyan-400 bg-white/10"
+      : "text-white/70 hover:text-white hover:bg-white/10"
+  }`}
+>
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M14 12l2 2 4-4m0-2a9 9 0 11-6.219-8.56M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+    />
+  </svg>
+  Sponsors
+</Link>
+
           </nav>
 
           {/* Desktop Auth */}
@@ -324,6 +348,17 @@ const Header = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Contact
+                  </Link>
+                  <Link
+                    to="/sponsors"
+                    className={`block px-3 py-2 rounded-md text-base font-medium ${
+                      isActive("/sponsors")
+                        ? "text-cyan-400 bg-white/5"
+                        : "text-white/80 hover:text-white hover:bg-white/5"
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Sponsors
                   </Link>
 
                   {user && (
