@@ -133,30 +133,22 @@
   );
 
   // Action Box Component
-  const ActionBox = ({
-    user,
-    event,
-    timeLeft,
-    isRegistrationOpen,
-    rulebookUrl,
-    setShowRegistrationForm,
-    navigate,
-  }) => {
-    if (!isRegistrationOpen)
-      return (
-        <p className="text-center text-red-400 font-semibold">
-          Registration is Closed.
-        </p>
-      );
-    if (event.currentTeams >= event.maxTeams)
-      return (
-        <p className="text-center text-orange-400 font-semibold">
-          This event is full.
-        </p>
-      );
+  // Action Box Component
+const ActionBox = ({
+  user,
+  event,
+  timeLeft,
+  isRegistrationOpen,
+  rulebookUrl,
+  setShowRegistrationForm,
+  navigate,
+}) => {
+  const isEventFull = event.currentTeams >= event.maxTeams;
 
-    return (
-      <div className="space-y-6 text-center">
+  return (
+    <div className="space-y-6 text-center">
+      {/* Countdown Timer - Only show if registration is open */}
+      {isRegistrationOpen && (
         <div>
           <p className="text-green-300 text-sm mb-2">Registration closes in:</p>
           <div className="flex justify-center space-x-2 md:space-x-4">
@@ -171,19 +163,39 @@
             ))}
           </div>
         </div>
-        <div className="flex space-x-3 pt-4 border-t border-gray-700">
-          {rulebookUrl && (
-            <a
-              href={rulebookUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              
-              className="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-md font-medium"
-            >
-              Rulebook
-            </a>
-          )}
-          {user ? (
+      )}
+
+      {/* Message when registration is closed or event is full */}
+      {!isRegistrationOpen && (
+        <p className="text-center text-red-400 font-semibold text-lg">
+          Registration is Closed.
+        </p>
+      )}
+      {isRegistrationOpen && isEventFull && (
+        <p className="text-center text-orange-400 font-semibold text-lg">
+          This event is full.
+        </p>
+      )}
+
+      <div className="flex space-x-3 pt-4 border-t border-gray-700">
+        {/* Rulebook Button - Always show if URL exists */}
+        {rulebookUrl && (
+          <a
+            href={rulebookUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-md font-medium ${
+              (!isRegistrationOpen || isEventFull) ? 'w-full' : '' // If only rulebook, make it full width
+            }`}
+            style={{ width: (!isRegistrationOpen || isEventFull) ? '100%' : 'auto' }} // Inline style for dynamic width
+          >
+            Rulebook
+          </a>
+        )}
+
+        {/* Registration Button - Show based on status */}
+        {isRegistrationOpen && !isEventFull ? (
+          user ? (
             <button
               onClick={() => setShowRegistrationForm(true)}
               className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-md font-medium"
@@ -197,11 +209,25 @@
             >
               Login to Register
             </button>
-          )}
-        </div>
+          )
+        ) : (
+          // If registration is closed or event is full, and rulebook URL exists, show a disabled "Registration Closed" button.
+          // If rulebook is not there, then this takes full width
+          (!rulebookUrl || !isRegistrationOpen || isEventFull) && (
+            <button
+              disabled
+              className={`flex-1 bg-gray-500 text-white py-3 rounded-md font-medium cursor-not-allowed opacity-70 ${
+                !rulebookUrl ? 'w-full' : '' // If no rulebook, make it full width
+              }`}
+            >
+              Registration Closed
+            </button>
+          )
+        )}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
   // --- Main Event Detail Component ---
   const EventDetail = () => {
