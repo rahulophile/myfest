@@ -133,6 +133,76 @@
   );
 
   // Action Box Component
+  // const ActionBox = ({
+  //   user,
+  //   event,
+  //   timeLeft,
+  //   isRegistrationOpen,
+  //   rulebookUrl,
+  //   setShowRegistrationForm,
+  //   navigate,
+  // }) => {
+  //   if (!isRegistrationOpen)
+  //     return (
+  //       <p className="text-center text-red-400 font-semibold">
+  //         Registration is Closed.
+  //       </p>
+  //     );
+  //   if (event.currentTeams >= event.maxTeams)
+  //     return (
+  //       <p className="text-center text-orange-400 font-semibold">
+  //         This event is full.
+  //       </p>
+  //     );
+
+  //   return (
+  //     <div className="space-y-6 text-center">
+  //       <div>
+  //         <p className="text-green-300 text-sm mb-2">Registration closes in:</p>
+  //         <div className="flex justify-center space-x-2 md:space-x-4">
+  //           {Object.entries(timeLeft).map(([unit, value]) => (
+  //             <div
+  //               key={unit}
+  //               className="text-center bg-gray-800/50 p-3 border-sky-800 border-1 rounded-lg w-20"
+  //             >
+  //               <div className="text-2xl font-bold text-white">{value}</div>
+  //               <div className="text-xs text-gray-400 capitalize">{unit}</div>
+  //             </div>
+  //           ))}
+  //         </div>
+  //       </div>
+  //       <div className="flex space-x-3 pt-4 border-t border-gray-700">
+  //         {rulebookUrl && (
+  //           <a
+  //             href={rulebookUrl}
+  //             target="_blank"
+  //             rel="noopener noreferrer"
+              
+  //             className="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-md font-medium"
+  //           >
+  //             Rulebook
+  //           </a>
+  //         )}
+  //         {user ? (
+  //           <button
+  //             onClick={() => setShowRegistrationForm(true)}
+  //             className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-md font-medium"
+  //           >
+  //             Register Now
+  //           </button>
+  //         ) : (
+  //           <button
+  //             onClick={() => navigate("/login")}
+  //             className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-md font-medium"
+  //           >
+  //             Login to Register
+  //           </button>
+  //         )}
+  //       </div>
+  //     </div>
+  //   );
+  // };
+
   // Action Box Component
 const ActionBox = ({
   user,
@@ -228,6 +298,7 @@ const ActionBox = ({
     </div>
   );
 };
+  
 
   // --- Main Event Detail Component ---
   const EventDetail = () => {

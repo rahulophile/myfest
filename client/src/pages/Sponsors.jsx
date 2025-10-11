@@ -3,8 +3,7 @@ import React from "react";
 const Sponsors = () => {
   const sponsors = [
     { name: "Rasta", logo: "images/logos/rasta.png" },
-    // { name: "InnovateLabs", logo: "/logos/innovatelabs.png" },
-    
+    { name: "Fabrox", logo: "images/logos/fabrox.png" },
   ];
 
   return (
