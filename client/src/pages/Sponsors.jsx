@@ -2,7 +2,7 @@ import React from "react";
 
 const Sponsors = () => {
   const sponsors = [
-    { name: "Rasta", logo: "images/logos/rasta.png" },
+    // { name: "Rasta", logo: "images/logos/rasta.png" },
     { name: "Fabrox", logo: "images/logos/fabrox.png" },
   ];
 
