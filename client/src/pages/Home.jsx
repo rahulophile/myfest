@@ -174,7 +174,7 @@ const getPosterUrl = (event) => {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          buildApiUrl("/api/events/upcoming/limit/12")
+          buildApiUrl("/api/events")
         );
         const data = await response.json();
         if (data.success) setEvents(data.data);
