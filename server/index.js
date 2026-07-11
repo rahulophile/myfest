@@ -33,6 +33,7 @@ app.use(helmet({
 // CORS Configuration
 const allowedOrigins = [
   'https://vzn-8070.onrender.com', // Aapka deployed frontend URL
+  'https://visiongecv.netlify.app', // Netlify frontend URL
   'http://localhost:5173',
   'https://visiongecv.in',
   'https://www.visiongecv.in',        
